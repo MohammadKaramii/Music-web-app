@@ -8,31 +8,24 @@ import { BiSearch } from "react-icons/bi";
 import Button from "./Button";
 
 interface HeaderProps {
+  children: React.ReactNode;
   className?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ className }) => {
+const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const router = useRouter();
-  const currentTime = new Date();
-  const hour = currentTime.getHours();
 
-  const partOfDay =
-    hour >= 5 && hour < 12
-      ? "Good morning"
-      : hour >= 12 && hour < 17
-      ? "Good afternoon"
-      : hour >= 17 && hour < 20
-      ? "Good evening"
-      : "Good night";
+
+
 
   return (
-    <div 
-    className={twMerge(
-      `h-fit bg-gradient-to-b to-[#bc2a8d] from-[#4442df] p-6 `,
-      className
-    )}
-     >
-     <div className="w-full mb-4 flex items-center  justify-between">
+    <div
+      className={twMerge(
+        `h-fit bg-gradient-to-b to-[#bc2a8d] from-[#4442df] p-6  rounded-t-lg `,
+        className
+      )}
+    >
+      <div className="w-full mb-4 flex items-center  justify-between">
         <div className="hidden md:flex items-center gap-x-2">
           <button
             onClick={() => router.back()}
@@ -47,9 +40,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
             <RxCaretRight size={35} className="text-white" />
           </button>
 
-          <h1 className="text-white text-3xl font-semibold ml-2">
-            {partOfDay ? partOfDay : "Welcome Back"}
-          </h1>
+  
         </div>
 
         <div className="flex md:hidden gap-x-2 items-center">
@@ -65,9 +56,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
           >
             <BiSearch className="text-black" size={20} />
           </button>
-          <h1 className="text-white text-3xl font-semibold ml-2">
-            {partOfDay ? partOfDay : "Welcome Back"}
-          </h1>
+
         </div>
         <div className="flex justify-between items-center gap-x-4">
           <div>
@@ -80,6 +69,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
           </div>
         </div>
       </div>
+      {children}
     </div>
   );
 };
