@@ -4,7 +4,7 @@ export interface Song {
     id: string;
     artist: string;
     title: string;
-    song_path: string;
+    songPath: string;
     cover: string;
     created_at: string
   }

@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import { useEffect, useState } from 'react';
 import { Song } from '@/types';
 import PageContent from '@/components/PageContent';
-export const revalidate = 0;
+
 
 export default function Home() {
   const [songs, setSongs] = useState<Song[]>([]);

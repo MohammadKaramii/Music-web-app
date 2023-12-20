@@ -8,3 +8,11 @@ export const getAllSongs = () => {
     return axios.get(url);
 };
 
+
+// @desc Get Contact With Song ID
+// @route GET http://localhost:9000/blogs/:blogId
+export const getSongbyId = (id:string) => {
+    const url = `${SERVER_URL}/songs/${id}`;
+    return axios.get(url);
+};
+

@@ -2,6 +2,7 @@ import Sidebar from '@/components/Sidebar'
 import './globals.css'
 import type { Metadata } from 'next'
 import {Oxygen} from 'next/font/google'
+import Player from '@/components/Player'
 
 const font = Oxygen({ subsets: ['latin'], weight: ['300', '400' , '700'] })
 
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-      <Sidebar>{children}</Sidebar>
- 
+      <Sidebar>
+        {children}
+      </Sidebar>
+      <Player />
         </body>
     </html>
   )
