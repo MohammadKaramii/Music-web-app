@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { BsPauseFill, BsPlayFill } from 'react-icons/bs';
-import { AiFillStepBackward, AiFillStepForward } from 'react-icons/ai';
-import { HiSpeakerXMark, HiSpeakerWave } from 'react-icons/hi2';
-import useSound from 'use-sound';
+import { useEffect, useState } from "react";
+import { BsPauseFill, BsPlayFill } from "react-icons/bs";
+import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
+import { HiSpeakerXMark, HiSpeakerWave } from "react-icons/hi2";
+import useSound from "use-sound";
 
-import { Song } from '@/types';
-import MediaItem from './MediaItem';
-import LikeButton from './LikeButton';
-import Slider from './Slider';
-import usePlayer from '@/hooks/usePlayer';
+import { Song } from "@/types";
+import MediaItem from "./MediaItem";
+import LikeButton from "./LikeButton";
+import Slider from "./Slider";
+import usePlayer from "@/hooks/usePlayer";
 
 interface PlayerContentProps {
   song: Song;
@@ -61,7 +61,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       onPlayNext();
     },
     onpause: () => setisPlaying(false),
-    format: ['mp3'],
+    format: ["mp3"],
   });
 
   useEffect(() => {
@@ -89,7 +89,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       <div className="flex  justify-start w-full">
         <div className="flex items-center gap-x-4">
           <MediaItem data={song} />
-          <LikeButton  />
+          <LikeButton song={song} />
         </div>
       </div>
       <div className="md:hidden flex col-auto w-full justify-end items-center">

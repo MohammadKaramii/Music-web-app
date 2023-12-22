@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import useGetSongbyId from '@/hooks/useGetSongbyId';
+import useGetSongbyId from "@/hooks/useGetSongbyId";
 
-import usePlayer from '@/hooks/usePlayer';
-import PlayerContent from './PlayerContent';
+import usePlayer from "@/hooks/usePlayer";
+import PlayerContent from "./PlayerContent";
 
 const Player = () => {
   const player = usePlayer();
   const { song } = useGetSongbyId(player.activeId);
 
-  const songUrl = song?.songPath
+  const songUrl = song?.songPath;
 
   if (!song || !songUrl || !player.activeId) {
     return null;

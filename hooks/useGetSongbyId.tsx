@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
-import { toast } from 'react-hot-toast';
+import { useEffect, useMemo, useState } from "react";
+import { toast } from "react-hot-toast";
 
-import { Song } from '@/types';
-import { getSongbyId } from '@/services/songServices';
+import { Song } from "@/types";
+import { getSongbyId } from "@/services/songServices";
 
 const useGetSongbyId = (id?: string) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +19,7 @@ const useGetSongbyId = (id?: string) => {
       try {
         const response = await getSongbyId(id);
         setSong(response.data);
-      } catch (error : any) {
+      } catch (error: any) {
         toast.error(error.message);
       } finally {
         setIsLoading(false);

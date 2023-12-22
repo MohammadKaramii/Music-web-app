@@ -6,7 +6,7 @@ export interface Song {
     title: string;
     songPath: string;
     cover: string;
-    created_at: string
+    isLiked: boolean;
   }
 
   export interface SidebarItemProps {

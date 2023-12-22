@@ -1,16 +1,15 @@
-'use client';
+"use client";
 
-MediaItem
-import { Song } from '@/types';
-import MediaItem from './MediaItem';
-import LikeButton from '@/components/LikeButton';
+MediaItem;
+import { Song } from "@/types";
+import MediaItem from "./MediaItem";
+import LikeButton from "@/components/LikeButton";
 
 interface SearchContentProps {
   songs: Song[];
 }
 
 const SearchContent: React.FC<SearchContentProps> = ({ songs }) => {
-
   if (songs.length === 0) {
     return (
       <div className="flex gap-y-2 flex-col px-6 w-full text-neutral-400">
@@ -23,9 +22,9 @@ const SearchContent: React.FC<SearchContentProps> = ({ songs }) => {
       {songs.map((song) => (
         <div key={song.id} className="flex items-center gap-x-4 w-full">
           <div className="flex-1">
-          <MediaItem  data={song} />
+            <MediaItem data={song} />
           </div>
-          <LikeButton  />
+          <LikeButton song={song} />
         </div>
       ))}
     </div>

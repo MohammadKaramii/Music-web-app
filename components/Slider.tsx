@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import * as RadixSlider from '@radix-ui/react-slider';
+import * as RadixSlider from "@radix-ui/react-slider";
 
 interface SliderProps {
   value?: number;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { twMerge } from 'tailwind-merge';
+import { twMerge } from "tailwind-merge";
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
@@ -14,9 +14,6 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const router = useRouter();
-
-
-
 
   return (
     <div
@@ -39,8 +36,6 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           >
             <RxCaretRight size={35} className="text-white" />
           </button>
-
-  
         </div>
 
         <div className="flex md:hidden gap-x-2 items-center">
@@ -56,7 +51,6 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           >
             <BiSearch className="text-black" size={20} />
           </button>
-
         </div>
         <div className="flex justify-between items-center gap-x-4">
           <div>

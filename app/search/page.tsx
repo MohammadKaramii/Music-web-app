@@ -6,7 +6,6 @@ import SearchContent from "@/components/SearchContent";
 import { Song } from "@/types";
 import { getAllSongs } from "@/services/songServices";
 
-
 interface SearchProps {
   searchParams: {
     title: string;

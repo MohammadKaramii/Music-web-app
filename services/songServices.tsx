@@ -1,3 +1,4 @@
+import { Song } from "@/types";
 import axios from "axios";
 const SERVER_URL = "http://localhost:9000";
 
@@ -9,10 +10,24 @@ export const getAllSongs = () => {
 };
 
 
-// @desc Get Contact With Song ID
-// @route GET http://localhost:9000/blogs/:blogId
-export const getSongbyId = (id:string) => {
-    const url = `${SERVER_URL}/songs/${id}`;
+// @desc Get Song With Song ID
+// @route GET http://localhost:9000/songs/:songId
+export const getSongbyId = (songId:string) => {
+    const url = `${SERVER_URL}/songs/${songId}`;
     return axios.get(url);
+};
+
+// @desc Get Liked Songs
+// @route GET http://localhost:9000/songs?isLiked=true
+export const getLikedSongs = () => {
+    const url = `${SERVER_URL}/songs?isLiked=true`;
+    return axios.get(url);
+};
+
+// @desc Update Liked Songs
+// @route Put http://localhost:9000/songs/:songId
+export const updateIsLikeSong = (songId: string, updatedSong: Song) => {
+    const url = `${SERVER_URL}/songs/${songId}`;
+    return axios.put(url, updatedSong);
 };
 
