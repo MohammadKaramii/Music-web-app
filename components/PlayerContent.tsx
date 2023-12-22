@@ -21,7 +21,8 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const player = usePlayer();
   const [volume, setVolume] = useState(1);
   const [isPlaying, setisPlaying] = useState(false);
-
+  const [seekPosition, setSeekPosition] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const ValumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
 
@@ -66,23 +67,52 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
 
   useEffect(() => {
     sound?.play();
-
+  
+    const updateCurrentTime = () => {
+      const newPosition = Math.floor((sound?.seek() * 1000) || 0);
+      
+      
+      setCurrentTime(newPosition);
+    };
+    const interval = setInterval(updateCurrentTime, 1000);
+    
     return () => {
       sound?.unload();
+      clearInterval(interval);
     };
   }, [sound]);
-
+  
   const handlePlay = () => {
     if (!isPlaying) {
       return play();
     } else pause();
   };
-
+  
   const toggleMute = () => {
     if (volume === 0) {
       setVolume(1);
     } else setVolume(0);
   };
+  
+  const formatDuration = (duration: number): string => {
+    const minutes = Math.floor(duration / 60000);
+    const seconds = Math.floor((duration % 60000) / 1000);
+    
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    const formattedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+    
+    return `${formattedMinutes}:${formattedSeconds}`;
+  };
+  
+  const handleSeek = (value: number) => {
+    setSeekPosition(value);
+    const newPosition = Math.floor((duration / 1000) * value);
+    setCurrentTime(newPosition * 1000);
+    sound?.seek(newPosition);
+
+  };
+  
+ 
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 h-full">
@@ -116,7 +146,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
         <AiFillStepForward
           onClick={onPlayNext}
           size={30}
-          className="text-neutral-400 hover:text-white cursor-pointer transition"
+          className="text-neutral-400 hover:text-white cursor-pointer"
         />
       </div>
 
@@ -128,6 +158,14 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
             size={34}
           />
           <Slider value={volume} onChange={(value) => setVolume(value)} />
+        </div>
+      </div>
+      <div className="flex justify-center items-center col-span-3 w-full pr-2">
+        <div className="flex items-center justify-center w-full max-w-[722px] gap-x-2">
+          <Slider value={currentTime / duration} onChange={handleSeek} />
+          <span className="text-white">{formatDuration(currentTime)}</span>
+          <span className="text-white">/</span>
+          <span className="text-white">{formatDuration(duration)}</span>
         </div>
       </div>
     </div>
