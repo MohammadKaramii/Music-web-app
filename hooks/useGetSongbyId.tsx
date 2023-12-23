@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import { Song } from "@/types";
 import { getSongbyId } from "@/services/songServices";
 
-const useGetSongbyId = (id?: string) => {
+const useGetSongbyId = (id?: number) => {
   const [isLoading, setIsLoading] = useState(false);
   const [song, setSong] = useState<Song | undefined>(undefined);
 

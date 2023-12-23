@@ -1,7 +1,7 @@
 import { IconType } from 'react-icons';
 
 export interface Song {
-    id: string;
+    id: number;
     artist: string;
     title: string;
     songPath: string;
