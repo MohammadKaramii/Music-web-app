@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import { HiSpeakerXMark, HiSpeakerWave } from "react-icons/hi2";
-
+import ShuffleButton from "./ShuffleButton";
 import { Song } from "@/types";
 import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
@@ -19,7 +19,6 @@ interface PlayerContentProps {
 const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const player = usePlayer();
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const sound = useMemo(() => new Audio(songUrl), [songUrl]);
@@ -164,12 +163,9 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
     }
   }, [player.repeatMode]);
 
-  console.log("a");
+
   useEffect(() => {
-    sound.addEventListener("play", () => {
-      setIsPlaying(true);
-      setIsLoading(false);
-    });
+    sound.addEventListener("play", () => setIsPlaying(true));
     sound.addEventListener("pause", () => setIsPlaying(false));
     sound.addEventListener("ended", handleMusicEnded);
 
@@ -181,22 +177,17 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   }, [sound, onPlayNext]);
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 h-full">
-      {isLoading && (
-        <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-75">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-primary-400"></div>
-        </div>
-      )}
+    <div className="grid grid-cols-3 h-full">
       <div className="flex justify-start w-full">
         <div className="flex items-center gap-x-4">
           <MediaItem data={song} />
           <LikeButton song={song} />
         </div>
       </div>
-      <div className="md:hidden flex col-auto w-full justify-end items-center">
+      <div className="md:hidden flex col-span-2 w-full justify-end items-center ">
         <div
           onClick={handlePlay}
-          className="h-10 w-10 flex items-center p-1 cursor-pointer bg-white justify-center rounded-full"
+          className="h-10 w-10 flex items-center p-1 cursor-pointer bg-white justify-center rounded-full mr-1"
         >
           <Icon className="text-black" size={30} />
         </div>
@@ -234,35 +225,43 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
           />
         </div>
       </div>
-      <div className="flex justify-center items-center col-span-3 w-full pr-2">
-        <div className="flex items-center justify-center w-full max-w-[722px] gap-x-2">
-          <Slider value={currentTime / sound.duration} onChange={handleSeek} />
-          <span className="text-white whitespace-nowrap">
-            {formatDuration(currentTime)}
-          </span>
-          <span className="text-white">/</span>
-          <span className="text-white whitespace-nowrap">
-            {formatDuration(sound.duration)}
-          </span>
-        </div>
-      </div>
-      <div className="absolute left-0 bottom-0 p-4 ml-3">
-        <button onClick={toggleShuffle}>
-          <FaShuffle color={player.shuffleMode ? "white" : "gray"} size={20} />
-        </button>
-      </div>
-      <div className="absolute right-0 bottom-0 p-4 mr-3">
-        <button onClick={toggleRepeat}>
-          <IconRepeat
-            color={
-              player.repeatMode === "all" || player.repeatMode === "one"
-                ? "white"
-                : "gray"
-            }
-            size={23}
-          />
-        </button>
-      </div>
+     
+  
+  <div className="hidden md:flex w-full  md:justify-start pl-4">
+  <ShuffleButton
+        shuffleMode={player.shuffleMode}
+        toggleShuffle={toggleShuffle}
+      />
+  </div>
+  
+  <div className="flex col-span-3 md:col-span-1 h-full justify-center items-center w-full max-w-[722px] gap-x-6">
+    <div className="flex items-center justify-center w-full max-w-[722px] gap-x-2">
+      <span className="text-white whitespace-nowrap p-2">
+        {formatDuration(currentTime)}
+      </span>
+      <Slider value={currentTime / sound.duration} onChange={handleSeek} />
+    
+      <span className="text-white whitespace-nowrap p-2">
+        {formatDuration(sound.duration)}
+      </span>
+      
+    </div>
+  </div>
+  <div className="flex col-span-2 md:hidden w-full  md:justify-start pl-4">
+  <ShuffleButton
+        shuffleMode={player.shuffleMode}
+        toggleShuffle={toggleShuffle}
+      />
+  </div>
+  <div className="flex w-full justify-end pr-2">
+    <button onClick={toggleRepeat}>
+      {player.repeatMode === 'all' || player.repeatMode === 'one' ? (
+        <IconRepeat color="white" size={23} />
+      ) : (
+        <IconRepeat color="gray" size={23} />
+      )}
+    </button>
+  </div>
     </div>
   );
 };

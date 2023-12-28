@@ -2,40 +2,44 @@
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import SongContent from "@/components/SongContent";
-import { getLikedSongs } from "@/services/songServices";
+import { getSongsbyArtist } from "@/services/songServices";
+import { useParams } from "next/navigation";
 
-const Liked = () => {
-  const [likedSongs, setLikedSongs] = useState([]);
+
+const ArtistSongs = () => {
+  const [artistsSongs, setArtistsSongs] = useState([]);
+  const { artistName } = useParams<{ artistName: string }>();
 
   useEffect(() => {
-    const fetchLikedSongs = async () => {
+    const fetchData = async () => {
       try {
-        const response = await getLikedSongs();
-        setLikedSongs(response.data);
+        const response = await getSongsbyArtist(artistName);
+        setArtistsSongs(response.data);
       } catch (error) {
-        console.error("Error fetching liked songs:", error);
+        console.error("Failed to fetch songs:", error);
       }
     };
 
-    fetchLikedSongs();
-  }, []);
+    fetchData();
+  }, [artistName]);
+
   return (
     <div className="bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-auto">
       <Header>
         <div className="mt-20">
           <div className="flex flex-col items-center md:flex-row gap-x-5">
             <div className="flex flex-col gap-y-2 mt-4 md:mt-0">
-              <p className="hidden md:block font-semibold text-sm">Playlist</p>
+        
               <h1 className="text-6xl text-white sm:text-5xl lg:text-4xl font-bold">
-                Liked Songs
+                Artist Songs
               </h1>
             </div>
           </div>
         </div>
       </Header>
-      <SongContent songs={likedSongs} />
+      <SongContent songs={artistsSongs} />
     </div>
   );
 };
 
-export default Liked;
+export default ArtistSongs;

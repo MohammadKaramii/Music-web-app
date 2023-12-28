@@ -1,14 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import PlayButton from "./PlayButton";
-import { Song } from "@/types";
-interface SongItemProps {
-  data: Song;
-  onClick: (id: number) => void;
+import { Artist } from "@/types";
+interface ArtistItemProps {
+  data: Artist;
 }
 
-const SongItem: React.FC<SongItemProps> = ({ data, onClick }) => {
+const ArtistItem: React.FC<ArtistItemProps> = ({data}) => {
   return (
     <div
       className=" relative 
@@ -25,7 +23,7 @@ const SongItem: React.FC<SongItemProps> = ({ data, onClick }) => {
       hover:bg-neutral-400/10 
       transition 
       p-3"
-      onClick={() => onClick(data.id)}
+ 
     >
       <div
         className=" relative 
@@ -37,30 +35,16 @@ const SongItem: React.FC<SongItemProps> = ({ data, onClick }) => {
       >
         <Image
           className="object-cover"
-          src={data.cover}
+          src={data.picture}
           fill
           alt="cover image"
         />
       </div>
       <div className="flex flex-col items-start w-full pt-4 gap-y-1">
-        <p className="font-semibold truncate w-full">{data.title}</p>
-        <p
-          className="
-            text-neutral-400 
-            text-sm 
-            pb-4 
-            w-full 
-            truncate
-          "
-        >
-          {data.artist}
-        </p>
-      </div>
-      <div className="absolute bottom-24 right-5">
-        <PlayButton />
+        <p className="font-semibold truncate w-full">{data.name}</p>
       </div>
     </div>
   );
 };
 
-export default SongItem;
+export default ArtistItem;

@@ -9,6 +9,13 @@ export const getAllSongs = () => {
     return axios.get(url);
 };
 
+// @desc Get All Artists
+// @route GET http://localhost:9000/artists
+export const getAllArtists = () => {
+    const url = `${SERVER_URL}/artists`;
+    return axios.get(url);
+};
+
 
 // @desc Get Song With Song ID
 // @route GET http://localhost:9000/songs/:songId
@@ -21,6 +28,13 @@ export const getSongbyId = (songId:number) => {
 // @route GET http://localhost:9000/songs?isLiked=true
 export const getLikedSongs = () => {
     const url = `${SERVER_URL}/songs?isLiked=true`;
+    return axios.get(url);
+};
+
+// @desc Get Songs waith Artist Name
+// @route GET http://localhost:9000/songs?artist=${artistname}`
+export const getSongsbyArtist = (artistName: string) => {
+    const url = `${SERVER_URL}/songs?artist=${artistName}`;
     return axios.get(url);
 };
 

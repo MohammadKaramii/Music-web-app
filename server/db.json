@@ -1,10 +1,10 @@
 {
   "songs": [
     {
-      "title": "Saligheye Sabegh",
-      "artist": "Reza Shiri",
-      "cover": "https://nex1music.ir/img/1402/09/28/reza-shiri-saligheye-sabegh-2023-12-19-18-06-49.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Reza%20Shiri%20-%20Saligheye%20Sabegh%20[128].mp3",
+      "title": "Shab Khoreh",
+      "artist": "Meysam Ebrahimi",
+      "cover": "https://nex1music.ir/img/1402/07/15/meysam-ebrahim-shab-khoreh-2023-10-07-20-25-04.webp",
+      "songPath": "https://dl.nex1music.ir/1402/07/15/Meysam%20Ebrahim%20-%20Shab%20Khoreh%20[128].mp3",
       "id": 1,
       "isLiked": false
     },
@@ -17,180 +17,302 @@
       "isLiked": false
     },
     {
-      "title": "Zade Be Saram",
-      "artist": "Erfan Abra",
-      "cover": "https://nex1music.ir/img/1402/09/28/erfan-abra-zade-be-saram-2023-12-19-22-11-48.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Erfan%20Abra%20-%20Zade%20Be%20Saram%20[128].mp3",
+      "title": " Nadaramet",
+      "artist": "Mohsen Yeganeh",
+      "cover": "https://nex1music.ir/img/1401/01/06/mohsen-yeganeh-nadaramet-2022-03-26-16-23-52.webp",
+      "songPath": "https://dl.nex1music.ir/1401/01/06/Mohsen%20Yeganeh%20-%20Nadaramet%20[128].mp3",
       "id": 3,
       "isLiked": false
     },
     {
-      "title": "Daste Gol",
-      "artist": "Ali Majidi",
-      "cover": "https://nex1music.ir/img/1402/09/28/ali-majidi-daste-gol-2023-12-19-22-10-44.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Ali%20Majidi%20-%20Daste%20Gol%20[128].mp3",
+      "title": "Metro",
+      "artist": "Mohsen Chavoshi",
+      "cover": "https://nex1music.ir/img/1393/02/02/140085848840278097mohsen-chavoshi-metro.webp",
+      "songPath": "https://dl.nex1music.ir/artists/Mohsen%20Chavoshi/Mohsen%20Chavoshi%20-%20Metro%20[128].mp3",
       "id": 4,
       "isLiked": false
     },
     {
-      "title": "Chelleh Shab",
-      "artist": "Yaser Pourmomen",
-      "cover": "https://nex1music.ir/img/1402/09/28/yaser-pourmomen-chelleh-shab-2023-12-19-22-07-34.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Yaser%20Pourmomen%20-%20Chelleh%20Shab%20[128].mp3",
+      "title": "Bemoni Baram",
+      "artist": "Reza Sadeghi",
+      "cover": "https://nex1music.ir/img/1400/09/22/reza-sadeghi-bemoni-baram-2021-12-13-21-09-10.webp",
+      "songPath": "https://dl.nex1music.ir/1400/09/22/Reza%20Sadeghi%20-%20Bemoni%20Baram%20[128].mp3",
       "id": 5,
       "isLiked": false
     },
     {
-      "title": "Bargard",
-      "artist": "Ali Sadati",
-      "cover": "https://nex1music.ir/img/1402/09/28/ali-sadati-bargard-2023-12-19-22-06-35.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Ali%20Sadati%20-%20Bargard%20[128].mp3",
+      "title": "Vaghti Mikhandi",
+      "artist": "Ehsan Khaje Amiri",
+      "cover": "https://nex1music.ir/img/1397/09/13/ehsan-khaje-amiri-vaghti-mikhandi-2018-12-04-20-57-59.webp",
+      "songPath": "https://dl.nex1music.ir/1397/09/13/Ehsan%20Khaje%20Amiri%20-%20Vaghti%20Mikhandi%20[128].mp3",
       "id": 6,
       "isLiked": false
     },
     {
-      "title": "Bargaye Narenji",
-      "artist": "Behnad Aria",
-      "cover": "https://nex1music.ir/img/1402/09/28/behnad-aria-bargaye-narenji-2023-12-19-22-03-41.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Behnad%20Aria%20-%20Bargaye%20Narenji%20[128].mp3",
+      "title": "Asheghaneh",
+      "artist": "Farzad Farzin",
+      "cover": "https://nex1music.ir/img/1395/12/24/148950698978634634farzad-farzin-asheghaneh.webp",
+      "songPath": "https://dl.nex1music.ir/1395/12/24/Farzad%20Farzin%20-%20Asheghaneh%20[128].mp3.mp3",
       "id": 7,
       "isLiked": false
     },
     {
-      "title": "Bakha Bakha",
-      "artist": "Savas",
-      "cover": "https://nex1music.ir/img/1402/09/28/savas-bakha-bakha-2023-12-19-22-01-39.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Savas%20-%20Bakha%20Bakha%20[128].mp3",
+      "title": "Nesfe Shab",
+      "artist": "Ali Yasini",
+      "cover": "https://nex1music.ir/img/1401/11/30/ali-yasini-nesfe-shab-2023-02-19-20-21-24.webp",
+      "songPath": "https://dl.nex1music.ir/1401/11/30/Ali%20Yasini%20-%20Nesfe%20Shab%20[128].mp3",
       "id": 8,
       "isLiked": false
     },
     {
-      "title": "Del Bedeh",
-      "artist": "Lio Band",
-      "cover": "https://nex1music.ir/img/1402/09/28/lio-band-del-bedeh-2023-12-19-21-59-18.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Lio%20Band%20-%20Del%20Bedeh%20[128].mp3",
+      "title": "To Mano Key Koshti",
+      "artist": "Babak Jahanbakhsh",
+      "cover": "https://nex1music.ir/img/1401/03/17/babak-jahanbakhsh-to-mano-key-koshti-2022-06-07-22-04-35.webp",
+      "songPath": "https://dl.nex1music.ir/1401/03/17/Babak%20Jahanbakhsh%20-%20To%20Mano%20Key%20Koshti%20[128].mp3",
       "id": 9,
       "isLiked": false
     },
     {
-      "title": "Zarebin",
-      "artist": "Abolfazl Mousavi",
-      "cover": "https://nex1music.ir/img/1402/09/28/abolfazl-mousavi-zarebin-2023-12-19-21-54-02.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Abolfazl%20Mousavi%20-%20Zarebin%20[128].mp3",
+      "title": "Divoonegi",
+      "artist": "Sirvan Khosravi",
+      "cover": "https://nex1music.ir/img/1400/04/26/sirvan-khosravi-divoonegi-2021-07-17-21-46-32.webp",
+      "songPath": "https://dl.nex1music.ir/1400/04/26/Sirvan%20Khosravi%20-%20Divoonegi%20[128].mp3",
       "id": 10,
       "isLiked": false
     },
     {
-      "title": "Yalda",
-      "artist": "Alireza Ghasemi",
-      "cover": "https://nex1music.ir/img/1402/09/28/alireza-ghasemi-yalda-2023-12-19-21-53-02.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Alireza%20Ghasemi%20-%20Yalda%20[128].mp3",
+      "title": "Arezoo",
+      "artist": "Mazyar Fallahi",
+      "cover": "https://nex1music.ir/img/1400/07/26/mazyar-fallahi-arezoo-2021-10-18-19-12-32.webp",
+      "songPath": "https://dl.nex1music.ir/1400/07/26/Mazyar%20Fallahi%20-%20Arezoo%20[128].mp3",
       "id": 11,
       "isLiked": false
     },
     {
-      "title": "Gole Babooneh",
-      "artist": "Mehrvan",
-      "cover": "https://nex1music.ir/img/1402/09/28/mehrvan-gole-babooneh-2023-12-19-21-52-12.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Mehrvan%20-%20Gole%20Babooneh%20[128].mp3",
+      "title": "Morphine",
+      "artist": "Hamid Askari",
+      "cover": "https://nex1music.ir/img/1398/11/30/hamid-askari-morphine-2020-02-19-21-07-18.webp",
+      "songPath": "https://dl.nex1music.ir/1398/11/30/Hamid%20Askari%20-%20Morphine%20[128].mp3",
       "id": 12,
       "isLiked": false
     },
     {
-      "title": "Shabo Rooza",
-      "artist": "Aref Ghadi",
-      "cover": "https://nex1music.ir/img/1402/09/28/aref-ghadi-shabo-rooza-2023-12-19-21-50-59.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Aref%20Ghadi%20-%20Shabo%20Rooza%20[128].mp3",
+      "title": "Sigar Poshte Sigar",
+      "artist": "Reza Yazdani",
+      "cover": "https://nex1music.ir/img/1393/10/01/141928685162071232reza-yazdani-sigar-poshte-sigar.webp",
+      "songPath": "https://dl.nex1music.ir/1393/10/02/Reza%20Yazdani%20-%20Sigar%20Poshte%20Sigar%20[128].mp3",
       "id": 13,
       "isLiked": false
     },
     {
-      "title": "Shoma Bodin",
-      "artist": "Amir Tohidloo",
-      "cover": "https://nex1music.ir/img/1402/09/28/amir-tohidloo-shoma-bodin-2023-12-19-21-48-35.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Amir%20Tohidloo%20-%20Shoma%20Bodin%20[128].mp3",
+      "title": "Nescafe",
+      "artist": "Rastaak",
+      "cover": "https://nex1music.ir/img/1395/01/30/146099670854421367rastaak-nescafe.webp",
+      "songPath": "https://dl.nex1music.ir/1395/01/30/Rastaak%20-%20Nescafe%20[128].mp3",
       "id": 14,
       "isLiked": false
     },
     {
-      "title": "Yalda",
-      "artist": "Hashem Habibian",
-      "cover": "https://nex1music.ir/img/1402/09/28/hashem-habibian-yalda-2023-12-19-21-47-32.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Hashem%20Habibian%20-%20Yalda%20[128].mp3",
+      "title": "Ax",
+      "artist": "Siamak Abbasi",
+      "cover": "https://nex1music.ir/img/1398/08/08/siamak-abbasi-aks-2019-10-30-21-06-00.webp",
+      "songPath": "https://dl.nex1music.ir/1398/08/08/Siamak%20Abbasi%20-%20Ax%20[128].mp3",
       "id": 15,
       "isLiked": false
     },
     {
-      "title": "Shab Yalda",
-      "artist": "Hamid Eslami",
-      "cover": "https://nex1music.ir/img/1402/09/28/hamid-eslami-shab-yalda-2023-12-19-16-40-19.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Hamid%20Eslami%20-%20Shab%20Yalda%20[128].mp3",
+      "title": "Paeiz",
+      "artist": "Mehdi Yarrahi",
+      "cover": "https://nex1music.ir/img/1396/09/10/151213918075693588mehdi-yarrahi.webp",
+      "songPath": "https://dl.nex1music.ir/1396/09/10/Mehdi%20Yarrahi%20-%20Paeiz%20[128].mp3",
       "id": 16,
       "isLiked": false
     },
     {
-      "title": "Bargard",
-      "artist": "Behzad Aria",
-      "cover": "https://nex1music.ir/img/1402/09/28/behzad-aria-bargard-2023-12-19-21-46-42.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Behzad%20Aria%20-%20Bargard%20[128].mp3",
+      "title": "Kojaei",
+      "artist": "Morteza Pashaei",
+      "cover": "https://nex1music.ir/img/1393/12/10/142515314536697016morteza-pashaei-kojaei.webp",
+      "songPath": "https://dl.nex1music.ir/1393/12/09/Morteza%20Pashaei%20-%20Kojaei%20[128].mp3",
       "id": 17,
       "isLiked": false
     },
     {
-      "title": "Afsane",
-      "artist": "Amirhosein Shakeri",
-      "cover": "https://nex1music.ir/img/1402/09/28/amirhosein-shakeri-afsane-2023-12-19-21-45-38.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Amirhosein%20Shakeri%20-%20Afsane%20[128].mp3",
+      "title": "Bidar Sho",
+      "artist": "Homayoun Shajaryan",
+      "cover": "https://nex1music.ir/img/1401/05/19/homayoun-shajarian-bidar-sho-2022-08-10-18-35-27.webp",
+      "songPath": "https://dl.nex1music.ir/1401/05/19/Homayoun%20Shajarian%20-%20Bidar%20Sho%20[128].mp3",
       "id": 18,
       "isLiked": false
     },
     {
-      "title": "Masir Ba To",
-      "artist": "Sajad Allami",
-      "cover": "https://nex1music.ir/img/1402/09/28/sajad-allami-masir-ba-to-2023-12-19-21-44-47.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Sajad%20Allami%20-%20Masir%20Ba%20To%20[128].mp3",
+      "title": "Sheyda",
+      "artist": "Ashvan",
+      "cover": "https://nex1music.ir/img/1397/11/25/ashvan-sheyda-2019-02-14-23-42-46.webp",
+      "songPath": "https://dl.nex1music.ir/1397/11/25/Ashvan%20-%20Sheyda%20[128].mp3",
       "id": 19,
       "isLiked": false
     },
     {
-      "title": "Yare Khoob",
-      "artist": "Amir Radan",
-      "cover": "https://nex1music.ir/img/1402/09/28/amir-radan-yare-khoob-2023-12-19-21-43-55.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Amir%20Radan%20-%20Yare%20Khoob%20[128].mp3",
+      "title": "Man Delam Tange",
+      "artist": "Xaniar Khosravi",
+      "cover": "https://nex1music.ir/img/1400/10/19/xaniar-khosravi-man-delam-tange-2022-01-09-21-02-51.webp",
+      "songPath": "https://dl.nex1music.ir/1400/10/19/Xaniar%20Khosravi%20-%20Man%20Delam%20Tange%20[128].mp3",
       "id": 20,
       "isLiked": false
     },
     {
-      "title": "Leyli",
-      "artist": "Fazel Deriss",
-      "cover": "https://nex1music.ir/img/1402/09/28/fazel-deriss-leyli-2023-12-19-21-43-08.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Fazel%20Deriss%20-%20Leyli%20[128].mp3",
+      "title": "Taje Sar",
+      "artist": "Mohammad Alizadeh",
+      "cover": "https://nex1music.ir/img/1402/04/09/mohammad-alizadeh-taje-sar-2023-06-30-19-43-48.webp",
+      "songPath": "https://dl.nex1music.ir/1402/04/09/Mohammad%20Alizadeh%20-%20Taje%20Sar%20[128].mp3",
       "id": 21,
       "isLiked": false
     },
     {
-      "title": "Dooset Daram",
-      "artist": "Afshin Khan",
-      "cover": "https://nex1music.ir/img/1402/09/28/afshin-khan-dooset-daram-2023-12-19-21-42-04.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Afshin%20Khan%20-%20Dooset%20Daram%20[128].mp3",
+      "title": "Roosari Abi",
+      "artist": "Ali Zand Vakili",
+      "cover": "https://nex1music.ir/img/1397/11/05/ali-zand-vakili-roosari-abi-2019-01-25-21-06-12.webp",
+      "songPath": "https://dl.nex1music.ir/1397/11/05/Ali%20Zand%20Vakili%20-%20Roosari%20Abi%20[128].mp3",
       "id": 22,
       "isLiked": false
     },
     {
-      "title": "Chele Shoo",
-      "artist": "Iman Fallah",
-      "cover": "https://nex1music.ir/img/1402/09/28/iman-fallah-chele-shoo-2023-12-19-18-26-18.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Iman%20Fallah%20-%20Chele%20Shoo%20[128].mp3",
+      "title": "Ghol Midam",
+      "artist": "Ali Lohrasbi",
+      "cover": "https://nex1music.ir/img/1398/07/30/ali-lohrasbi-ghol-midam-2019-10-22-23-58-18.webp",
+      "songPath": "https://dl.nex1music.ir/1398/07/30/Ali%20Lohrasbi%20-%20Ghol%20Midam%20[128].mp3",
       "id": 23,
       "isLiked": false
     },
     {
-      "title": "Chale Goneat",
-      "artist": "Mohammad Ramezi & Hamidreza Shirmohammadi",
-      "cover": "https://nex1music.ir/img/1402/09/28/mohammad-ramezi-hamidreza-shirmohammadi-chale-goneat-2023-12-19-18-31-06.webp",
-      "songPath": "https://dl.nex1music.ir/1402/09/28/Mohammad%20Ramezi%20&%20Hamidreza%20Shirmohammadi%20-%20Chale%20Goneat%20[128].mp3",
+      "title": "Nafas",
+      "artist": "Mohammad Esfahani",
+      "cover": "https://nex1music.ir/img/1396/03/06/149590232659741175mohammad-esfahani-nafas.webp",
+      "songPath": "https://dl.nex1music.ir/1396/03/06/Mohammad%20Esfahani%20-%20Nafas%20[128].mp3",
       "id": 24,
       "isLiked": false
+    }
+  ],
+  "artists": [
+    {
+      "name": "Meysam Ebrahimi",
+      "picture": "https://music-fa.com/wp-content/uploads/2022/03/Meysam-Ebrahimi-Ashegh-Mage-Mitoone-Music-fa.com_.jpg",
+      "id": 1
+    },
+    {
+      "name": "Mohsen Yeganeh",
+      "picture": "https://music-fa.com/wp-content/uploads/2019/04/M-yegane93750375038573958.jpg",
+      "id": 2
+    },
+    {
+      "name": "Mohsen Chavoshi",
+      "picture": "https://music-fa.com/wp-content/uploads/2019/12/Mohsen-Chavoshi-Sheydaei-Music-fa.com_.jpg",
+      "id": 3
+    },
+    {
+      "name": "Reza Sadeghi",
+      "picture": "https://music-fa.com/wp-content/uploads/2023/11/Reza-Sadeghi-Manam-Delam-Tang-Mishe-Music-fa.com_.jpg",
+      "id": 4
+    },
+    {
+      "name": "Ehsan Khaje Amiri",
+      "picture": "https://music-fa.com/wp-content/uploads/2023/09/Ehsan-Khaje-Amiri-Baraye-Akharin-Bar-Music-fa.com_.jpg",
+      "id": 5
+    },
+    {
+      "name": "Farzad Farzin",
+      "picture": "https://music-fa.com/wp-content/uploads/2021/01/Farzad-Farzin-Music-fa.com_.jpg",
+      "id": 6
+    },
+    {
+      "name": "Ali Yasini",
+      "picture": "https://music-fa.com/wp-content/uploads/2019/08/Ali-Yasini902742951309571305917350139Music-fa.com_.jpg",
+      "id": 7
+    },
+    {
+      "name": "Ali Lohrasbi",
+      "picture": "https://music-fa.com/wp-content/uploads/2020/09/Ali-Lohrasbi-Del-Music-fa.com_.jpg",
+      "id": 8
+    },
+    {
+      "name": "Babak Jahanbakhsh",
+      "picture": "https://music-fa.com/wp-content/uploads/2023/02/Babak-Jahanbakhsh-Khodamo-Daram-Ke-Music-fa.com_.jpg",
+      "id": 9
+    },
+    {
+      "name": "Sirvan Khosravi",
+      "picture": "https://music-fa.com/wp-content/uploads/2019/11/Sirvan-Khosravi-Taajob-Nakon-Music-fa.com_.jpg",
+      "id": 10
+    },
+    {
+      "name": "Mazyar Fallahi",
+      "picture": "https://music-fa.com/wp-content/uploads/2019/12/Mazyar-Falahi-1247952601239357193925829-Music-fa.com_.jpg",
+      "id": 11
+    },
+    {
+      "name": "Hamid Askari",
+      "picture": "https://music-fa.com/wp-content/uploads/2023/12/Hamid-Askari-Hamin-Ke-Akse-Tanhaei-Music-fa.com_.jpeg",
+      "id": 12
+    },
+    {
+      "name": "Reza Yazdani",
+      "picture": "https://music-fa.com/wp-content/uploads/2018/07/yazdani.jpg",
+      "id": 13
+    },
+    {
+      "name": "Rastaak",
+      "picture": "https://music-fa.com/wp-content/uploads/2018/08/38097091_2035394246790936_6774129355346935808_n.jpg",
+      "id": 14
+    },
+    {
+      "name": "Siamak Abbasi",
+      "picture": "https://music-fa.com/wp-content/uploads/2019/12/Siamak-Abbasi-9274962185139831178391-Music-fa.com_.jpg",
+      "id": 15
+    },
+    {
+      "name": "Mehdi Yarrahi",
+      "picture": "https://music-fa.com/wp-content/uploads/2019/08/Mehdi-Yarrahi-Nemishe-Edame-Dad-Music-fa.com_.jpg",
+      "id": 16
+    },
+    {
+      "name": "Alireza Ghorbani",
+      "picture": "https://music-fa.com/wp-content/uploads/2023/12/Alireza-Ghorbani-Dar-Zolfe-To-Avizam-Music-fa.com_.jpg",
+      "id": 17
+    },
+    {
+      "name": "Morteza Pashaei",
+      "picture": "https://music-fa.com/wp-content/uploads/2022/08/Morteza-Pashaei-Vaghti-too-Zehne-Mani-Music-fa.com_.jpg",
+      "id": 18
+    },
+    {
+      "name": "Homayoun Shajaryan",
+      "picture": "https://music-fa.com/wp-content/uploads/2023/03/Homayoun-Shajaryan-Az-Daste-Del-Music-fa.com_.jpg",
+      "id": 19
+    },
+    {
+      "name": "Ashvan",
+      "picture": "https://music-fa.com/wp-content/uploads/2019/03/Ashvan0395700239572049752.jpg",
+      "id": 20
+    },
+    {
+      "name": "Xaniar Khosravi",
+      "picture": "https://music-fa.com/wp-content/uploads/2022/01/Xaniar-Khosravi-Man-Delam-Tange-Music-fa.com_.jpg",
+      "id": 21
+    },
+    {
+      "name": "Mohammad Alizadeh",
+      "picture": "https://music-fa.com/wp-content/uploads/2019/11/Mohamad-Alizade-Kheili-Khoshhalam-Music-fa.com_.jpg",
+      "id": 22
+    },
+    {
+      "name": "Ali Zand Vakili",
+      "picture": "https://music-fa.com/wp-content/uploads/2023/11/Ali-Zand-Vakili-Che-Zibaei-Music-fa.com_.jpg",
+      "id": 23
+    },
+    {
+      "name": "Mohammad Esfahani",
+      "picture": "https://music-fa.com/wp-content/uploads/2018/11/M-esfahani8745684375682475683746582743568274.jpg",
+      "id": 24
     }
   ]
 }
