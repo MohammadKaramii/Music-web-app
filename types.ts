@@ -1,7 +1,7 @@
 import { IconType } from "react-icons";
 
 export interface Song {
-  id: number;
+  id: string;
   artist: string;
   title: string;
   songPath: string;
@@ -20,5 +20,5 @@ export interface SidebarItemProps {
 export interface Artist {
   name: string;
   picture: string;
-  id: number;
+  id: string;
 }

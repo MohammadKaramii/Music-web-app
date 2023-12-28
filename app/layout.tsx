@@ -3,7 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Oxygen } from "next/font/google";
 import Player from "@/components/Player";
-
+import ModalProvider from "@/providers/ModalProvider";
+import ToasterProvider from '@/providers/ToasterProvider';
 const font = Oxygen({ subsets: ["latin"], weight: ["300", "400", "700"] });
 
 export const metadata: Metadata = {
@@ -19,6 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
+      <ToasterProvider />
+        <ModalProvider />
         <Sidebar>{children}</Sidebar>
         <Player />
       </body>

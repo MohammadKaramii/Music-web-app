@@ -6,8 +6,18 @@ import { FiHeart } from "react-icons/fi";
 import { IoIosArrowForward } from "react-icons/io";
 import { GoPerson } from "react-icons/go";
 import Link from "next/link";
+import useUploadModal from '@/hooks/useUploadModal';
 
 const Library = () => {
+  
+  const uploadModal = useUploadModal();
+  
+  const onClick = () => {
+    return uploadModal.onOpen();
+  };
+  
+  
+  
   return (
     <div className="flex flex-col ">
       <div className="flex items-center justify-between border-b-2 border-gray-500 px-5 py-4 ">
@@ -18,6 +28,7 @@ const Library = () => {
         <AiOutlinePlus
           size={20}
           className="text-neutral-400 cursor-pointer  hover:text-white transition"
+          onClick={onClick}
         />
       </div>
       <Link href="/liked" className="">

@@ -1,19 +1,22 @@
 import { create } from "zustand";
 
 interface PlayerStore {
-  ids: number[];
-  initialIds: number[];
-  activeId?: number;
+  ids: string[];
+  initialIds: string[];
+  activeId?: string;
   volume: number;
   shuffleMode: boolean;
   repeatMode: "off" | "one" | "all";
-  setId: (id: number) => void;
-  setIds: (ids: number[]) => void;
-  setInitialIds: (initialIds: number[]) => void;
+  setId: (id: string) => void;
+  setIds: (ids: string[]) => void;
+  setInitialIds: (initialIds: string[]) => void;
   setVolume: (volume: number) => void;
   setShuffleMode: (shuffleMode: boolean) => void;
   setRepeatMode: (repeatMode: "off" | "one" | "all") => void;
   reset: () => void;
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
 }
 
 const usePlayer = create<PlayerStore>((set) => ({
@@ -23,12 +26,15 @@ const usePlayer = create<PlayerStore>((set) => ({
   volume: 1,
   shuffleMode: false,
   repeatMode: "off",
-  setId: (id: number) => set({ activeId: id }),
-  setIds: (ids: number[]) => set({ ids }),
-  setInitialIds: (initialIds: number[]) => set({ initialIds }),
+  isOpen:true,
+  setId: (id: string) => set({ activeId: id }),
+  setIds: (ids: string[]) => set({ ids }),
+  setInitialIds: (initialIds: string[]) => set({ initialIds }),
   setVolume: (volume: number) => set({ volume }),
   setShuffleMode: (shuffleMode: boolean) => set({ shuffleMode }),
   setRepeatMode: (repeatMode: "off" | "one" | "all") => set({ repeatMode }),
+  onOpen: () => set({ isOpen: true }),
+  onClose: () => set({ isOpen: false }),
   reset: () => set({ ids: [], activeId: undefined }),
 }));
 

@@ -184,7 +184,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
           <LikeButton song={song} />
         </div>
       </div>
-      <div className="md:hidden flex col-span-2 w-full justify-end items-center ">
+      <div className="md:hidden  pr-7 flex col-span-2 w-full justify-end items-center ">
         <div
           onClick={handlePlay}
           className="h-10 w-10 flex items-center p-1 cursor-pointer bg-white justify-center rounded-full mr-1"
@@ -234,8 +234,8 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       />
   </div>
   
-  <div className="flex col-span-3 md:col-span-1 h-full justify-center items-center w-full max-w-[722px] gap-x-6">
-    <div className="flex items-center justify-center w-full max-w-[722px] gap-x-2">
+  <div className="flex col-span-3 md:col-span-1 h-full justify-center items-center w-full max-w-[722px] px-3 md:px-0 gap-x-6">
+    <div className="flex items-center justify-center w-full  max-w-[722px] gap-x-2">
       <span className="text-white whitespace-nowrap p-2">
         {formatDuration(currentTime)}
       </span>
@@ -247,13 +247,13 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       
     </div>
   </div>
-  <div className="flex col-span-2 md:hidden w-full  md:justify-start pl-4">
+  <div className="flex col-span-2 md:hidden pb-3 w-full md:justify-start pl-5">
   <ShuffleButton
         shuffleMode={player.shuffleMode}
         toggleShuffle={toggleShuffle}
       />
   </div>
-  <div className="flex w-full justify-end pr-2">
+  <div className="flex w-full justify-end pb-3 md:pb-0 pr-10 md:pr-2">
     <button onClick={toggleRepeat}>
       {player.repeatMode === 'all' || player.repeatMode === 'one' ? (
         <IconRepeat color="white" size={23} />

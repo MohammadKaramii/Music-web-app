@@ -6,7 +6,7 @@
       "cover": "https://nex1music.ir/img/1402/07/15/meysam-ebrahim-shab-khoreh-2023-10-07-20-25-04.webp",
       "songPath": "https://dl.nex1music.ir/1402/07/15/Meysam%20Ebrahim%20-%20Shab%20Khoreh%20[128].mp3",
       "id": 1,
-      "isLiked": false
+      "isLiked": true
     },
     {
       "title": "Dar Zolfe To Avizam",
@@ -190,6 +190,29 @@
       "cover": "https://nex1music.ir/img/1396/03/06/149590232659741175mohammad-esfahani-nafas.webp",
       "songPath": "https://dl.nex1music.ir/1396/03/06/Mohammad%20Esfahani%20-%20Nafas%20[128].mp3",
       "id": 24,
+      "isLiked": false
+    },
+    {
+      "title": "Are Are",
+      "artist": "Saeed Arab",
+      "cover": "https://nex1music.ir/img/1402/10/06/saeed-arab-are-are-2023-12-27-23-07-26.webp",
+      "songPath": "https://dl.nex1music.ir/1402/10/06/Saeed%20Arab%20-%20Are%20Are%20[128].mp3",
+      "id": 25
+    },
+    {
+      "title": "Bishtar Az Eshgh",
+      "artist": "Reza Sadeghi",
+      "cover": "https://nex1music.ir/img/1402/09/30/reza-sadeghi-bishtar-az-eshgh-2023-12-21-02-33-10.webp",
+      "songPath": "https://dl.nex1music.ir/1402/09/30/Reza%20Sadeghi%20-%20Bishtar%20Az%20Eshgh%20[128].mp3",
+      "id": "lqp2w19x",
+      "isLiked": false
+    },
+    {
+      "title": "Omid Jahan",
+      "artist": "Jamal Jamaloo 2",
+      "cover": "https://nex1music.ir/img/1402/10/05/omid-jahan-jamal-jamaloo-2-2023-12-26-16-46-07.webp",
+      "songPath": "https://dl.nex1music.ir/1402/10/05/Omid%20Jahan%20-%20Jamal%20Jamaloo%202%20[128].mp3",
+      "id": "lqp7awix",
       "isLiked": false
     }
   ],

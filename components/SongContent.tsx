@@ -14,7 +14,7 @@ const SongContent: React.FC<LikedContentProps> = ({ songs }) => {
   const onPlay = useOnPlay(songs);
   const [likedSongs, setLikedSongs] = useState(songs);
 
-  const handleLikeUpdate = (songId: number, isLiked: boolean) => {
+  const handleLikeUpdate = (songId: string, isLiked: boolean) => {
     const updatedSongs = likedSongs.map((song) => {
       if (song.id === songId) {
         return { ...song, isLiked };
@@ -37,7 +37,7 @@ const SongContent: React.FC<LikedContentProps> = ({ songs }) => {
       {songs.map((item) => (
         <div className="flex items-center gap-x-4  w-full" key={item.id}>
           <div className="flex-1">
-            <MediaItem onClick={(id: number) => onPlay(id)} data={item} />
+            <MediaItem onClick={(id: string) => onPlay(id)} data={item} />
           </div>
           <LikeButton song={item} />
         </div>

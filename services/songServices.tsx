@@ -19,7 +19,7 @@ export const getAllArtists = () => {
 
 // @desc Get Song With Song ID
 // @route GET http://localhost:9000/songs/:songId
-export const getSongbyId = (songId:number) => {
+export const getSongbyId = (songId:string) => {
     const url = `${SERVER_URL}/songs/${songId}`;
     return axios.get(url);
 };
@@ -40,8 +40,15 @@ export const getSongsbyArtist = (artistName: string) => {
 
 // @desc Update Liked Songs
 // @route Put http://localhost:9000/songs/:songId
-export const updateIsLikeSong = (songId: number, updatedSong: Song) => {
+export const updateIsLikeSong = (songId: string, updatedSong: Song) => {
     const url = `${SERVER_URL}/songs/${songId}`;
     return axios.put(url, updatedSong);
+};
+
+// @desc Upload new Song
+// @route Post http://localhost:9000/songs
+export const uploadNewSong = (newSongData: Song) => {
+    const url = `${SERVER_URL}/songs`;
+    return axios.post(url, newSongData);
 };
 
