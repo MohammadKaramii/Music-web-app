@@ -6,6 +6,7 @@ import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import Button from "./Button";
+import useAuthModal from '@/hooks/useAuthModal';
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -14,7 +15,18 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const router = useRouter();
+ const {loggedIn, setLoggedIn, onOpen, setSignupMode } =  useAuthModal()
+ const openAuthModal = (signupMode: boolean) => {
+  onOpen();
+    setSignupMode(signupMode);
+  };
+ 
+  const handleLogout = () => {
+    setLoggedIn(false);
+    window.location.reload();
+  };
 
+  
   return (
     <div
       className={twMerge(
@@ -53,14 +65,24 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           </button>
         </div>
         <div className="flex justify-between items-center gap-x-4">
+        {loggedIn ? (
+            <div className="flex gap-x-4 items-center">
+              <Button className="bg-[#D99DF1] px-6 py-2" onClick={handleLogout}>
+                Logout
+              </Button>
+            </div>
+          ) : (
+          <>
           <div>
-            <Button className="bg-transparent text-neutral-200 font-medium">
+            <Button onClick={() => openAuthModal(true)} className="bg-transparent text-neutral-200 font-medium">
               Sign Up
             </Button>
           </div>
           <div>
-            <Button className="bg-[#D99DF1] px-6 py-2">Log In</Button>
+            <Button onClick={() => openAuthModal(false)} className="bg-[#D99DF1] px-6 py-2">Sign In</Button>
           </div>
+          </>
+                )}
         </div>
       </div>
       {children}

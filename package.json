@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently \"next --port 3000\" \"cd server && npm start\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -36,6 +36,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
-    "@types/uniqid": "^5.3.4"
+    "@types/uniqid": "^5.3.4",
+    "concurrently": "^8.2.2"
   }
 }

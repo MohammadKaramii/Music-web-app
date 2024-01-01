@@ -3,22 +3,38 @@ import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import SongContent from "@/components/SongContent";
 import { getLikedSongs } from "@/services/songServices";
+import useUser from "@/hooks/useUser";
+
+import useAuthModal from "@/hooks/useAuthModal";
+import { Song } from "@/types";
 
 const Liked = () => {
+  const { id } = useUser();
+  const authModal = useAuthModal();
   const [likedSongs, setLikedSongs] = useState([]);
 
   useEffect(() => {
     const fetchLikedSongs = async () => {
       try {
         const response = await getLikedSongs();
-        setLikedSongs(response.data);
+        const likedSongsByUser = response.data.filter((song: Song) =>
+          song.likedBy.includes(id)
+        );
+
+        setLikedSongs(likedSongsByUser);
       } catch (error) {
         console.error("Error fetching liked songs:", error);
       }
     };
 
     fetchLikedSongs();
-  }, []);
+  }, [id]);
+
+  const openAuthModal = (signupMode: boolean) => {
+    authModal.onOpen();
+    authModal.setSignupMode(signupMode);
+  };
+
   return (
     <div className="bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-auto">
       <Header>
@@ -33,7 +49,20 @@ const Liked = () => {
           </div>
         </div>
       </Header>
-      <SongContent songs={likedSongs} />
+      {!id ? (
+        <div className="gap-y-2 flex-col px-6 py-6 w-full text-xl text-neutral-400">
+          <button onClick={() => openAuthModal(false)} className="text-white">
+            Signin
+          </button>
+          &nbsp;to see liked songs or&nbsp;
+          <button onClick={() => openAuthModal(true)} className="text-white">
+            Signup
+          </button>
+          &nbsp;if you don't have an account
+        </div>
+      ) : (
+        <SongContent songs={likedSongs} />
+      )}
     </div>
   );
 };

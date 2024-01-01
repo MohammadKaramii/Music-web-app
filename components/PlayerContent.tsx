@@ -8,7 +8,6 @@ import MediaItem from "./MediaItem";
 import LikeButton from "./LikeButton";
 import Slider from "./Slider";
 import usePlayer from "@/hooks/usePlayer";
-import { FaShuffle } from "react-icons/fa6";
 import { TbRepeat, TbRepeatOnce, TbRepeatOff } from "react-icons/tb";
 
 interface PlayerContentProps {

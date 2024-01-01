@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -86,6 +87,7 @@ const UploadModal = () => {
         songPath: values.song,
         id: uniqid(),
         isLiked: false,
+        likedBy: [],
       };
 
       await uploadNewSong(songData);

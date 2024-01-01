@@ -6,18 +6,23 @@ import { FiHeart } from "react-icons/fi";
 import { IoIosArrowForward } from "react-icons/io";
 import { GoPerson } from "react-icons/go";
 import Link from "next/link";
-import useUploadModal from '@/hooks/useUploadModal';
+import useUploadModal from "@/hooks/useUploadModal";
+import useAuthModal from "@/hooks/useAuthModal";
 
 const Library = () => {
-  
   const uploadModal = useUploadModal();
-  
+  const authModal = useAuthModal();
+
   const onClick = () => {
-    return uploadModal.onOpen();
+    const { loggedIn } = authModal;
+  
+    if (loggedIn) {
+      uploadModal.onOpen();
+    } else {
+      authModal.onOpen();
+    }
   };
-  
-  
-  
+
   return (
     <div className="flex flex-col ">
       <div className="flex items-center justify-between border-b-2 border-gray-500 px-5 py-4 ">
@@ -42,11 +47,11 @@ const Library = () => {
             className="text-neutral-400 cursor-pointer  hover:text-white transition"
           />
         </div>
-      </Link> 
+      </Link>
       <Link href="/artists" className="">
         <div className="flex items-center justify-between border-b-2 px-5 py-4 border-gray-500  hover:bg-white/20 transition ">
           <div className="inline-flex items-center gap-x-2 ">
-          <GoPerson  size={26} className="text-neutral-400" />
+            <GoPerson size={26} className="text-neutral-400" />
             <p className="text-neutral-400 text-md font-medium">Artists</p>
           </div>
           <IoIosArrowForward

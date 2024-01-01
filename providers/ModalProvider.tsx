@@ -1,5 +1,6 @@
 'use client';
 
+import AuthModal from '@/components/AuthModal';
 import UploadModal from '@/components/UploadModal';
 
 
@@ -19,6 +20,7 @@ const ModalProvider: React.FC = () => {
   }
   return (
     <>
+    <AuthModal />
       <UploadModal />
     </>
   );

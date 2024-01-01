@@ -4,9 +4,11 @@ import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import { Song } from "@/types";
 import PageContent from "@/components/PageContent";
+import useAuthModal from "@/hooks/useAuthModal";
 
 export default function Home() {
   const [songs, setSongs] = useState<Song[]>([]);
+  const { loggedIn, name } = useAuthModal();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +40,7 @@ export default function Home() {
       <Header>
         <div className="mb-2">
           <h1 className="text-white text-3xl font-semibold">
-            {partOfDay ? partOfDay : "Welcome Back"}
+            {loggedIn ? `Hi ${name} !` : partOfDay}
           </h1>
         </div>
       </Header>

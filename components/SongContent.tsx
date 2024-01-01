@@ -1,10 +1,7 @@
-"use client";
-
 import { Song } from "@/types";
 import MediaItem from "@/components/MediaItem";
 import LikeButton from "@/components/LikeButton";
 import useOnPlay from "@/hooks/useOnPlay";
-import { useState } from "react";
 
 interface LikedContentProps {
   songs: Song[];
@@ -12,17 +9,8 @@ interface LikedContentProps {
 
 const SongContent: React.FC<LikedContentProps> = ({ songs }) => {
   const onPlay = useOnPlay(songs);
-  const [likedSongs, setLikedSongs] = useState(songs);
 
-  const handleLikeUpdate = (songId: string, isLiked: boolean) => {
-    const updatedSongs = likedSongs.map((song) => {
-      if (song.id === songId) {
-        return { ...song, isLiked };
-      }
-      return song;
-    });
-    setLikedSongs(updatedSongs);
-  };
+  console.log(songs);
 
   if (songs.length === 0) {
     return (
