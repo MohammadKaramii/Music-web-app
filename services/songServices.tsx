@@ -9,6 +9,13 @@ export const getAllSongs = () => {
   return axios.get(url);
 };
 
+// @desc Get All Users
+// @route GET http://localhost:9000/users
+export const getAllUsers = () => {
+  const url = `${SERVER_URL}/users`;
+  return axios.get(url);
+};
+
 // @desc Get All Artists
 // @route GET http://localhost:9000/artists
 export const getAllArtists = () => {

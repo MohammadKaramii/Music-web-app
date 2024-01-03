@@ -2,10 +2,15 @@
 import { useState } from "react";
 import Modal from "./Modal";
 import useAuthModal from "@/hooks/useAuthModal";
-import axios from "axios";
 import uniqid from "uniqid";
 import useUser from "@/hooks/useUser";
-import { createNewUser, loginUser } from "@/services/songServices";
+import { createNewUser, getAllUsers, loginUser } from "@/services/songServices";
+import {toast} from "react-hot-toast";
+
+interface User {
+  name: string;
+  email: string;
+}
 
 const AuthModal = () => {
   const { onClose, isOpen, name, setName } = useAuthModal();
@@ -42,6 +47,19 @@ const AuthModal = () => {
     e.preventDefault();
 
     try {
+      const responseUsers = await getAllUsers()
+     console.log(responseUsers.data, name, email);
+     
+      if (responseUsers.data.some((user: User) => user.name === name  )) {
+        toast.error("Username already exist!");
+        return
+      } else if (responseUsers.data.some((user: User) => user.email === email)) {
+        toast.error("Email already exists!");
+        return
+      } 
+
+  
+      
       const userId = uniqid();
       const response = await createNewUser(name, email, password, userId);
 

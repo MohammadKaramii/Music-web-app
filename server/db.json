@@ -26,7 +26,10 @@
       "songPath": "https://dl.nex1music.ir/1402/09/28/Alireza%20Ghorbani%20-%20Dar%20Zolfe%20To%20Avizam%20[128].mp3",
       "id": 2,
       "isLiked": false,
-      "likedBy": ["lquj38bm", "lqus6tdc"]
+      "likedBy": [
+        "lquj38bm",
+        "lqus6tdc"
+      ]
     },
     {
       "title": " Nadaramet",
@@ -44,7 +47,9 @@
       "songPath": "https://dl.nex1music.ir/artists/Mohsen%20Chavoshi/Mohsen%20Chavoshi%20-%20Metro%20[128].mp3",
       "id": 4,
       "isLiked": true,
-      "likedBy": ["lquvd3nm"]
+      "likedBy": [
+        "lquvd3nm"
+      ]
     },
     {
       "title": "Bemoni Baram",
@@ -241,6 +246,15 @@
       "cover": "https://nex1music.ir/img/1402/10/05/omid-jahan-jamal-jamaloo-2-2023-12-26-16-46-07.webp",
       "songPath": "https://dl.nex1music.ir/1402/10/05/Omid%20Jahan%20-%20Jamal%20Jamaloo%202%20[128].mp3",
       "id": "lqp7awix",
+      "isLiked": false,
+      "likedBy": []
+    },
+    {
+      "title": "are are",
+      "artist": "Saeed Arab",
+      "cover": "https://nex1music.ir/img/1402/10/06/srraeed-arab-are-are-2023-12-27-23-07-26.webp",
+      "songPath": "https://dl.nex1music.ir/1402/10/06/Saered%20Arab%20-%20Are%20Are%20[128].mp3",
+      "id": "lqxlwcir",
       "isLiked": false,
       "likedBy": []
     }

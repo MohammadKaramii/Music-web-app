@@ -69,8 +69,8 @@ const UploadModal = () => {
       const response = await getAllSongs();
       const isSongExists = response.data.some(
         (song: Song) =>
-          song.title === values.title ||
-          song.artist === values.artist ||
+          (song.title.toLowerCase() === values.title.toLowerCase() &&
+            song.artist.toLowerCase() === values.artist.toLowerCase()) ||
           song.cover === values.image ||
           song.songPath === values.song
       );
