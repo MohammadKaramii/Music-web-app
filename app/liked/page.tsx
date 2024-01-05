@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import SongContent from "@/components/SongContent";
@@ -8,7 +8,7 @@ import useAuthModal from "@/hooks/useAuthModal";
 import { Song } from "@/types";
 
 const Liked = () => {
-  const { id, isLiked } = useUser();
+  const { id } = useUser();
   const authModal = useAuthModal();
   const [likedSongs, setLikedSongs] = useState([]);
 
@@ -21,8 +21,8 @@ const Liked = () => {
     const fetchLikedSongs = async () => {
       try {
         const response = await getAllSongs();
-       console.log(response.data);
-       
+        console.log(response.data);
+
         const likedSongsByUser = response.data.filter((song: Song) =>
           song.likedBy.includes(id)
         );
@@ -58,12 +58,12 @@ const Liked = () => {
         <div className="gap-y-2 flex-col px-6 py-6 w-full text-xl text-neutral-400">
           <button onClick={() => openAuthModal(false)} className="text-white">
             Signin
-          </button>
-          &nbsp;to see liked songs or&nbsp;
+          </button>{" "}
+          to see liked songs or{" "}
           <button onClick={() => openAuthModal(true)} className="text-white">
             Signup
-          </button>
-          &nbsp;if you don't have an account
+          </button>{" "}
+          if you don't have an account
         </div>
       ) : (
         <SongContent songs={likedSongs} />

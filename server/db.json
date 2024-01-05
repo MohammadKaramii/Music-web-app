@@ -6,15 +6,8 @@
       "cover": "https://nex1music.ir/img/1402/07/15/meysam-ebrahim-shab-khoreh-2023-10-07-20-25-04.webp",
       "songPath": "https://dl.nex1music.ir/1402/07/15/Meysam%20Ebrahim%20-%20Shab%20Khoreh%20[128].mp3",
       "id": 1,
-      "isLiked": true,
-      "likedBy": [
-        "lqzcqan0",
-        "lqzcqan0",
-        "lqzcqan0",
-        "lqzcqan0",
-        "lqzcqan0",
-        "lqzcqan0"
-      ]
+      "isLiked": false,
+      "likedBy": []
     },
     {
       "title": "Dar Zolfe To Avizam",

@@ -80,6 +80,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   useEffect(() => {
     let interval: any;
     if (sound) {
+      sound.volume = player.volume;
       sound.play();
       setDuration(sound.duration);
       const updateCurrentTime = () => {
@@ -98,17 +99,18 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       }
       clearInterval(interval);
     };
-  }, [sound]);
+  }, [sound, player.volume]);
 
   const handlePlay = useCallback(() => {
     if (!isPlaying) {
+      sound.volume = player.volume;
       sound.play();
       setIsPlaying(true);
     } else {
       sound.pause();
       setIsPlaying(false);
     }
-  }, [isPlaying, sound]);
+  }, [isPlaying, sound, player.volume]);
 
   const toggleMute = useCallback(() => {
     if (player.volume === 0) {
@@ -117,7 +119,6 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       player.setVolume(0);
     }
   }, [player]);
-
   const formatDuration = (duration: number): string => {
     if (!duration) {
       return `${"--"} : ${"--"}`;
@@ -161,7 +162,6 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       onPlayNext();
     }
   }, [player.repeatMode]);
-
 
   useEffect(() => {
     sound.addEventListener("play", () => setIsPlaying(true));
@@ -224,43 +224,41 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
           />
         </div>
       </div>
-     
-  
-  <div className="hidden md:flex w-full  md:justify-start pl-4">
-  <ShuffleButton
-        shuffleMode={player.shuffleMode}
-        toggleShuffle={toggleShuffle}
-      />
-  </div>
-  
-  <div className="flex col-span-3 md:col-span-1 h-full justify-center items-center w-full max-w-[722px] px-3 md:px-0 gap-x-6">
-    <div className="flex items-center justify-center w-full  max-w-[722px] gap-x-2">
-      <span className="text-white whitespace-nowrap p-2">
-        {formatDuration(currentTime)}
-      </span>
-      <Slider value={currentTime / sound.duration} onChange={handleSeek} />
-    
-      <span className="text-white whitespace-nowrap p-2">
-        {formatDuration(sound.duration)}
-      </span>
-      
-    </div>
-  </div>
-  <div className="flex col-span-2 md:hidden pb-3 w-full md:justify-start pl-5">
-  <ShuffleButton
-        shuffleMode={player.shuffleMode}
-        toggleShuffle={toggleShuffle}
-      />
-  </div>
-  <div className="flex w-full justify-end pb-3 md:pb-0 pr-10 md:pr-2">
-    <button onClick={toggleRepeat}>
-      {player.repeatMode === 'all' || player.repeatMode === 'one' ? (
-        <IconRepeat color="white" size={23} />
-      ) : (
-        <IconRepeat color="gray" size={23} />
-      )}
-    </button>
-  </div>
+
+      <div className="hidden md:flex w-full  md:justify-start pl-4">
+        <ShuffleButton
+          shuffleMode={player.shuffleMode}
+          toggleShuffle={toggleShuffle}
+        />
+      </div>
+
+      <div className="flex col-span-3 md:col-span-1 h-full justify-center items-center w-full max-w-[722px] px-3 md:px-0 gap-x-6">
+        <div className="flex items-center justify-center w-full  max-w-[722px] gap-x-2">
+          <span className="text-white whitespace-nowrap p-2">
+            {formatDuration(currentTime)}
+          </span>
+          <Slider value={currentTime / sound.duration} onChange={handleSeek} />
+
+          <span className="text-white whitespace-nowrap p-2">
+            {formatDuration(sound.duration)}
+          </span>
+        </div>
+      </div>
+      <div className="flex col-span-2 md:hidden pb-3 w-full md:justify-start pl-5">
+        <ShuffleButton
+          shuffleMode={player.shuffleMode}
+          toggleShuffle={toggleShuffle}
+        />
+      </div>
+      <div className="flex w-full justify-end pb-3 md:pb-0 pr-10 md:pr-2">
+        <button onClick={toggleRepeat}>
+          {player.repeatMode === "all" || player.repeatMode === "one" ? (
+            <IconRepeat color="white" size={23} />
+          ) : (
+            <IconRepeat color="gray" size={23} />
+          )}
+        </button>
+      </div>
     </div>
   );
 };
