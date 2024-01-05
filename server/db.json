@@ -7,10 +7,7 @@
       "songPath": "https://dl.nex1music.ir/1402/07/15/Meysam%20Ebrahim%20-%20Shab%20Khoreh%20[128].mp3",
       "id": 1,
       "isLiked": false,
-      "likedBy": [
-        "lqzcqan0",
-        "lqzcqan0"
-      ]
+      "likedBy": []
     },
     {
       "title": "Dar Zolfe To Avizam",
@@ -19,9 +16,7 @@
       "songPath": "https://dl.nex1music.ir/1402/09/28/Alireza%20Ghorbani%20-%20Dar%20Zolfe%20To%20Avizam%20[128].mp3",
       "id": 2,
       "isLiked": false,
-      "likedBy": [
-        2
-      ]
+      "likedBy": []
     },
     {
       "title": " Nadaramet",
@@ -229,24 +224,6 @@
       "id": "lqp2w19x",
       "isLiked": false,
       "likedBy": []
-    },
-    {
-      "title": "Omid Jahan",
-      "artist": "Jamal Jamaloo 2",
-      "cover": "https://nex1music.ir/img/1402/10/05/omid-jahan-jamal-jamaloo-2-2023-12-26-16-46-07.webp",
-      "songPath": "https://dl.nex1music.ir/1402/10/05/Omid%20Jahan%20-%20Jamal%20Jamaloo%202%20[128].mp3",
-      "id": "lqp7awix",
-      "isLiked": false,
-      "likedBy": []
-    },
-    {
-      "title": "are are",
-      "artist": "Saeed Arab",
-      "cover": "https://nex1music.ir/img/1402/10/06/srraeed-arab-are-are-2023-12-27-23-07-26.webp",
-      "songPath": "https://dl.nex1music.ir/1402/10/06/Saered%20Arab%20-%20Are%20Are%20[128].mp3",
-      "id": "lqxlwcir",
-      "isLiked": false,
-      "likedBy": []
     }
   ],
   "artists": [
@@ -377,18 +354,6 @@
       "name": "John",
       "email": "john@example.com",
       "password": "password123"
-    },
-    {
-      "id": 2,
-      "name": "Jane",
-      "email": "jane@example.com",
-      "password": "1"
-    },
-    {
-      "name": "songs",
-      "email": "7mralka@gmail.com",
-      "password": "1",
-      "id": "lqzcqan0"
     }
   ]
 }
