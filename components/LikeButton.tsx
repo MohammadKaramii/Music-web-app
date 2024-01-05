@@ -59,7 +59,7 @@ useEffect(() => {
         likedBy: updatedLikedBy,
       };
       await updateIsLikeSong(song.id, updatedSong);
-      console.log(updatedSong);
+ 
 
       setIsLiked(!isLiked);
       router.refresh();

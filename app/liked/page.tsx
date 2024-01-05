@@ -21,7 +21,7 @@ const Liked = () => {
     const fetchLikedSongs = async () => {
       try {
         const response = await getAllSongs();
-        console.log(response.data);
+     
 
         const likedSongsByUser = response.data.filter((song: Song) =>
           song.likedBy.includes(id)
