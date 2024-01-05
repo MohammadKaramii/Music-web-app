@@ -63,7 +63,7 @@ const Liked = () => {
           <button onClick={() => openAuthModal(true)} className="text-white">
             Signup
           </button>{" "}
-          if you don't have an account
+          if you don&apos;t have an account
         </div>
       ) : (
         <SongContent songs={likedSongs} />
