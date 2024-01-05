@@ -7,6 +7,7 @@ import useUser from "@/hooks/useUser";
 import { createNewUser, getAllUsers, loginUser } from "@/services/songServices";
 import {toast} from "react-hot-toast";
 
+
 interface User {
   name: string;
   email: string;
@@ -16,9 +17,7 @@ const AuthModal = () => {
   const { onClose, isOpen, name, setName } = useAuthModal();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const signupMode = useAuthModal().signupMode;
-  const setSignupMode = useAuthModal().setSignupMode;
-  const setLoggedIn = useAuthModal().setLoggedIn;
+const {setLoggedIn, signupMode, setSignupMode, loggedIn} = useAuthModal()
   const { setId } = useUser();
 
   const handleLogin = async (e: any) => {
@@ -26,7 +25,7 @@ const AuthModal = () => {
 
     try {
       const response = await loginUser(email, password);
-      console.log(response);
+
       
       if (response.data.length === 1) {
         setLoggedIn(true);
@@ -48,7 +47,7 @@ const AuthModal = () => {
 
     try {
       const responseUsers = await getAllUsers()
-     console.log(responseUsers.data, name, email);
+   
      
       if (responseUsers.data.some((user: User) => user.name === name  )) {
         toast.error("Username already exist!");
@@ -60,13 +59,13 @@ const AuthModal = () => {
 
   
       
-      const userId = uniqid();
-      const response = await createNewUser(name, email, password, userId);
+      const id = uniqid();
+      const response = await createNewUser(name, email, password, id);
 
       if (response.status === 201) {
+    
         setLoggedIn(true);
         setId(response.data.id);
-
         alert("Signup successful!");
         onClose();
       } else {

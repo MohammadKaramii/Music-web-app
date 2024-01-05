@@ -1,27 +1,49 @@
 "use client";
-import { getAllSongs } from "@/services/songServices";
+import { getAllSongs, resetLikedSongs } from "@/services/songServices";
 import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import { Song } from "@/types";
 import PageContent from "@/components/PageContent";
 import useAuthModal from "@/hooks/useAuthModal";
 
+
 export default function Home() {
   const [songs, setSongs] = useState<Song[]>([]);
   const { loggedIn, name } = useAuthModal();
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getAllSongs();
-        setSongs(response.data);
+        let updatedSongs = response.data;
+  
+        if (!loggedIn) {
+          updatedSongs = response.data.map((song: Song) => ({
+            ...song,
+            isLiked: false,
+          }));
+  
+          await Promise.all(updatedSongs.map((updatedSong: Song) =>
+           resetLikedSongs(updatedSong.id, updatedSong)
+          ));
+  
+          const responseNew = await getAllSongs();
+          updatedSongs = responseNew.data;
+        }
+  
+        setSongs(updatedSongs);
       } catch (error) {
         console.error("Failed to fetch songs:", error);
       }
     };
-
+  
     fetchData();
   }, []);
+
+
+
+
+
 
   const currentTime = new Date();
   const hour = currentTime.getHours();

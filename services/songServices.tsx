@@ -51,6 +51,13 @@ export const updateIsLikeSong = (songId: string, updatedSong: Song) => {
   return axios.put(url, updatedSong);
 };
 
+// @desc Reset isLiked Songs
+// @route Patch http://localhost:9000/songs/:songId
+export const resetLikedSongs = ( songId: string, updatedSong: Song) => {
+  const url = `${SERVER_URL}/songs/${songId}`;
+  return axios.patch(url, updatedSong)
+};
+
 // @desc Upload new Song
 // @route Post http://localhost:9000/songs
 export const uploadNewSong = (newSongData: Song) => {
@@ -64,14 +71,14 @@ export const createNewUser = (
   name: string,
   email: string,
   password: string,
-  userId: string
+  id: string
 ) => {
   const url = `${SERVER_URL}/users`;
   return axios.post(url, {
     name,
     email,
     password,
-    userId,
+    id,
   });
 };
 

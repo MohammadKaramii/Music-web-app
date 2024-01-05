@@ -1,26 +1,31 @@
-"use client";
+'use client'
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import SongContent from "@/components/SongContent";
-import { getLikedSongs } from "@/services/songServices";
+import { getAllSongs, getLikedSongs } from "@/services/songServices";
 import useUser from "@/hooks/useUser";
-
 import useAuthModal from "@/hooks/useAuthModal";
 import { Song } from "@/types";
 
 const Liked = () => {
-  const { id } = useUser();
+  const { id, isLiked } = useUser();
   const authModal = useAuthModal();
   const [likedSongs, setLikedSongs] = useState([]);
 
   useEffect(() => {
+    if (!id) {
+      setLikedSongs([]);
+      return;
+    }
+
     const fetchLikedSongs = async () => {
       try {
-        const response = await getLikedSongs();
+        const response = await getAllSongs();
+       console.log(response.data);
+       
         const likedSongsByUser = response.data.filter((song: Song) =>
           song.likedBy.includes(id)
         );
-
         setLikedSongs(likedSongsByUser);
       } catch (error) {
         console.error("Error fetching liked songs:", error);

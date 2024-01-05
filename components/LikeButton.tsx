@@ -13,19 +13,37 @@ const LikeButton: React.FC<LikeButtonProps> = ({ song }) => {
   const router = useRouter();
   const { id } = useUser();
 
-  const authModal = useAuthModal();
+
+  const {onOpen} = useAuthModal();
   const [isLiked, setIsLiked] = useState(song.isLiked);
 
-  useEffect(() => {
-    if (!id) {
-      return;
+useEffect(() => {
+  if (!id) {
+    return;
+  }
+
+  const fetchLikedSongs = async () => {
+    try {
+      const isUserLiked = song.likedBy.includes(id);
+      setIsLiked(isUserLiked);
+      const updatedSong = {
+        ...song,
+        isLiked: isUserLiked,
+      };
+      await updateIsLikeSong(song.id, updatedSong);
+    } catch (error) {
+      console.error("Error fetching liked songs:", error);
     }
-  }, [song.id, id]);
+  };
+
+  fetchLikedSongs();
+}, [song.likedBy, id]);
 
   const handleLike = async () => {
     if (!id) {
-      return authModal.onOpen();
+      return onOpen();
     }
+    
 
     try {
       let updatedLikedBy;

@@ -8,6 +8,7 @@ import { BiSearch } from "react-icons/bi";
 import Button from "./Button";
 import useAuthModal from '@/hooks/useAuthModal';
 
+
 interface HeaderProps {
   children: React.ReactNode;
   className?: string;
@@ -22,6 +23,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
   };
  
   const handleLogout = () => {
+
     setLoggedIn(false);
     window.location.reload();
   };

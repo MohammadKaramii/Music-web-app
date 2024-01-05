@@ -10,7 +10,7 @@ interface LikedContentProps {
 const SongContent: React.FC<LikedContentProps> = ({ songs }) => {
   const onPlay = useOnPlay(songs);
 
-  console.log(songs);
+
 
   if (songs.length === 0) {
     return (
