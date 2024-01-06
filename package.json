@@ -2,11 +2,9 @@
   "name": "music-website",
   "version": "0.1.0",
   "private": true,
+  "main": "api/server.ts",
   "scripts": {
-    "dev": "concurrently \"next --port 3000\" \"cd server && npm start\"",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "concurrently \"next --port 3000\" \"json-server --watch db.json --port 9000\""
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
@@ -19,6 +17,7 @@
     "eslint": "8.55.0",
     "eslint-config-next": "14.0.4",
     "formik": "^2.4.5",
+    "json-server": "^0.17.4",
     "next": "14.0.4",
     "postcss": "8.4.32",
     "query-string": "^8.1.0",
@@ -36,6 +35,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@types/json-server": "^0.14.7",
     "@types/uniqid": "^5.3.4",
     "concurrently": "^8.2.2"
   }
