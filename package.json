@@ -4,7 +4,7 @@
   "private": true,
   "main": "api/server.ts",
   "scripts": {
-    "dev": "concurrently \"next --port 3000\" \"json-server --watch db.json --port 9000\""
+    "dev": "concurrently \"next --port 3000\" \"node api/server.ts\""
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
