@@ -2,15 +2,14 @@ import React from "react";
 import { FaShuffle } from "react-icons/fa6";
 
 interface ShuffleButtonProps {
-    shuffleMode: boolean;
-    toggleShuffle: () => void;
-  }
-  
+  shuffleMode: boolean;
+  toggleShuffle: () => void;
+}
 
-  const ShuffleButton: React.FC<ShuffleButtonProps> = ({
-    shuffleMode,
-    toggleShuffle,
-  }) => {
+const ShuffleButton: React.FC<ShuffleButtonProps> = ({
+  shuffleMode,
+  toggleShuffle,
+}) => {
   return (
     <button onClick={toggleShuffle}>
       {shuffleMode ? (

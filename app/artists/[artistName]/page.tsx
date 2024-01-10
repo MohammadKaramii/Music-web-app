@@ -6,24 +6,20 @@ import { useParams } from "next/navigation";
 import getSongsByArtist from "@/actions/getSongsByArtist";
 import { Song } from "@/types";
 
-
 const ArtistSongs = () => {
   const [artistsSongs, setArtistsSongs] = useState<Song[]>([]);
   const { artistName } = useParams<{ artistName: string }>();
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const songs = await getSongsByArtist(artistName);
         setArtistsSongs(songs);
-
-        
       } catch (error) {
-        console.error('Failed to fetch songs:', error);
+        console.error("Failed to fetch songs:", error);
       }
     };
-  
+
     fetchData();
   }, [artistName]);
 
@@ -33,7 +29,6 @@ const ArtistSongs = () => {
         <div className="mt-20">
           <div className="flex flex-col items-center md:flex-row gap-x-5">
             <div className="flex flex-col gap-y-2 mt-4 md:mt-0">
-        
               <h1 className="text-6xl text-white sm:text-5xl lg:text-4xl font-bold">
                 Artist Songs
               </h1>

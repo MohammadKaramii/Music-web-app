@@ -10,8 +10,6 @@ interface LikedContentProps {
 const SongContent: React.FC<LikedContentProps> = ({ songs }) => {
   const onPlay = useOnPlay(songs);
 
-
-
   if (songs.length === 0) {
     return (
       <div className=" flex flex-col px-6  py-6 gap-y-2 w-full text-xl text-neutral-400">

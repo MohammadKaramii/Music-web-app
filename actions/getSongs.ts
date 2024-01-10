@@ -7,7 +7,7 @@ const getSongs = async () => {
     console.log(error);
   }
 
-  return ( data as any) || [];
+  return (data as any) || [];
 };
 
 export default getSongs;

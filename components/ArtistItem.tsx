@@ -6,7 +6,7 @@ interface ArtistItemProps {
   data: Artist;
 }
 
-const ArtistItem: React.FC<ArtistItemProps> = ({data}) => {
+const ArtistItem: React.FC<ArtistItemProps> = ({ data }) => {
   return (
     <div
       className=" relative 
@@ -23,7 +23,6 @@ const ArtistItem: React.FC<ArtistItemProps> = ({data}) => {
       hover:bg-neutral-400/10 
       transition 
       p-3"
- 
     >
       <div
         className=" relative 

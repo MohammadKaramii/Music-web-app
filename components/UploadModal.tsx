@@ -11,7 +11,7 @@ import Button from "./Button";
 import { Song } from "@/types";
 import { supabase } from "@/supabase";
 import getSongs from "@/actions/getSongs";
-import  useUser  from '@/hooks/useUser';
+import useUser from "@/hooks/useUser";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Song title is required"),
@@ -41,7 +41,7 @@ const validationSchema = Yup.object({
 const UploadModal = () => {
   const uploadModal = useUploadModal();
   const [isLoading, setisLoading] = useState(false);
-  const user  = useUser();
+  const user = useUser();
   const router = useRouter();
 
   const initialValues = {
@@ -80,8 +80,6 @@ const UploadModal = () => {
         setisLoading(false);
         return;
       }
-
-
 
       const { error: uploadError } = await supabase.from("songs").insert({
         title: values.title,

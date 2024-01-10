@@ -3,7 +3,7 @@ import Modal from "./Modal";
 import useAuthModal from "@/hooks/useAuthModal";
 import uniqid from "uniqid";
 import useUser from "@/hooks/useUser";
-import { supabase } from "@/supabase"
+import { supabase } from "@/supabase";
 import { toast } from "react-hot-toast";
 
 interface User {
@@ -49,9 +49,7 @@ const AuthModal = () => {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        
       });
-
 
       if (error) {
         toast.error("Signup failed. Please try again!");
