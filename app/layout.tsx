@@ -24,6 +24,7 @@ export default function RootLayout({
         <ModalProvider />
         <Sidebar>{children}</Sidebar>
         <Player />
+
       </body>
     </html>
   );

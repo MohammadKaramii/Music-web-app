@@ -1,74 +1,80 @@
+'use client'
 import { useEffect, useState } from "react";
 import { Song } from "@/types";
 import { useRouter } from "next/navigation";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { updateIsLikeSong } from "@/services/songServices";
 import useUser from "@/hooks/useUser";
 import useAuthModal from "@/hooks/useAuthModal";
+import { supabase } from "@/supabase";
+import { toast } from 'react-hot-toast';
+
 interface LikeButtonProps {
   song: Song;
 }
 
 const LikeButton: React.FC<LikeButtonProps> = ({ song }) => {
   const router = useRouter();
-  const { id } = useUser();
+  const  user  = useUser();
 
 
   const {onOpen} = useAuthModal();
   const [isLiked, setIsLiked] = useState(song.isLiked);
 
-useEffect(() => {
-  if (!id) {
-    return;
-  }
-
-  const fetchLikedSongs = async () => {
-    try {
-      const isUserLiked = song.likedBy.includes(id);
-      setIsLiked(isUserLiked);
-      const updatedSong = {
-        ...song,
-        isLiked: isUserLiked,
-      };
-      await updateIsLikeSong(song.id, updatedSong);
-    } catch (error) {
-      console.error("Error fetching liked songs:", error);
+  useEffect(() => {
+    if (!user?.id) {
+      return;
     }
-  };
 
-  fetchLikedSongs();
-}, [song.likedBy, id]);
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from('liked_songs')
+        .select('*')
+        .eq('userId', user.id)
+        .eq('songId', song.id)
+        .single();
 
-  const handleLike = async () => {
-    if (!id) {
-      return onOpen();
-    }
-    
-
-    try {
-      let updatedLikedBy;
-      if (isLiked) {
-        updatedLikedBy = song.likedBy.filter((userId) => userId !== id);
-      } else {
-        updatedLikedBy = [...song.likedBy, id];
+      if (!error && data) {
+        setIsLiked(true);
       }
+    };
 
-      const updatedSong = {
-        ...song,
-        isLiked: !isLiked,
-        likedBy: updatedLikedBy,
-      };
-      await updateIsLikeSong(song.id, updatedSong);
- 
-
-      setIsLiked(!isLiked);
-      router.refresh();
-    } catch (error) {
-      console.error("Error liking the song:", error);
-    }
-  };
+    fetchData();
+  }, [song.id, supabase, user?.id]);
 
   const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
+
+  const handleLike = async () => {
+    if (!user) {
+      return onOpen();
+    }
+
+    if (isLiked) {
+      const { error } = await supabase
+        .from('liked_songs')
+        .delete()
+        .eq('userId', user.id)
+        .eq('songId', song.id);
+
+      if (error) {
+        toast.error(error.message);
+      } else {
+        setIsLiked(false);
+      }
+    } else {
+      const { error } = await supabase.from('liked_songs').insert({
+        songId: song.id,
+        userId: user.id,
+      });
+
+      if (error) {
+        toast.error(error.message);
+      } else {
+        setIsLiked(true);
+      }
+    }
+
+    router.refresh();
+  };
   return (
     <button
       className="

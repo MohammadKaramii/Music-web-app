@@ -2,24 +2,28 @@
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import SongContent from "@/components/SongContent";
-import { getSongsbyArtist } from "@/services/songServices";
 import { useParams } from "next/navigation";
+import getSongsByArtist from "@/actions/getSongsByArtist";
+import { Song } from "@/types";
 
 
 const ArtistSongs = () => {
-  const [artistsSongs, setArtistsSongs] = useState([]);
+  const [artistsSongs, setArtistsSongs] = useState<Song[]>([]);
   const { artistName } = useParams<{ artistName: string }>();
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getSongsbyArtist(artistName);
-        setArtistsSongs(response.data);
+        const songs = await getSongsByArtist(artistName);
+        setArtistsSongs(songs);
+
+        
       } catch (error) {
-        console.error("Failed to fetch songs:", error);
+        console.error('Failed to fetch songs:', error);
       }
     };
-
+  
     fetchData();
   }, [artistName]);
 

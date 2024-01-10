@@ -1,12 +1,10 @@
-"use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import Modal from "./Modal";
 import useAuthModal from "@/hooks/useAuthModal";
 import uniqid from "uniqid";
 import useUser from "@/hooks/useUser";
-import { createNewUser, getAllUsers, loginUser } from "@/services/songServices";
-import {toast} from "react-hot-toast";
-
+import { supabase } from "@/supabase"
+import { toast } from "react-hot-toast";
 
 interface User {
   name: string;
@@ -17,28 +15,30 @@ const AuthModal = () => {
   const { onClose, isOpen, name, setName } = useAuthModal();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-const {setLoggedIn, signupMode, setSignupMode, loggedIn} = useAuthModal()
+  const { setLoggedIn, signupMode, setSignupMode } = useAuthModal();
   const { setId } = useUser();
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
 
     try {
-      const response = await loginUser(email, password);
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      
-      if (response.data.length === 1) {
-        setLoggedIn(true);
-        setId(response.data[0].id);
-        setName(response.data[0].name);
-        alert("Login successful!");
-        onClose();
+      if (error) {
+        toast.error("Invalid credentials. Please try again!");
       } else {
-        alert("Invalid credentials. Please try again!");
+        setLoggedIn(true);
+        setId(data.user?.id ?? "");
+        setName(data.user?.user_metadata?.full_name ?? "");
+        toast.success("Login successful!");
+        onClose();
       }
     } catch (error) {
       console.error(error);
-      alert("An error occurred. Please try again later!");
+      toast.error("An error occurred. Please try again later!");
     }
   };
 
@@ -46,34 +46,28 @@ const {setLoggedIn, signupMode, setSignupMode, loggedIn} = useAuthModal()
     e.preventDefault();
 
     try {
-      const responseUsers = await getAllUsers()
-   
-     
-      if (responseUsers.data.some((user: User) => user.name === name  )) {
-        toast.error("Username already exist!");
-        return
-      } else if (responseUsers.data.some((user: User) => user.email === email)) {
-        toast.error("Email already exists!");
-        return
-      } 
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        
+      });
 
-  
-      
-      const id = uniqid();
-      const response = await createNewUser(name, email, password, id);
 
-      if (response.status === 201) {
-    
-        setLoggedIn(true);
-        setId(response.data.id);
-        alert("Signup successful!");
-        onClose();
+      if (error) {
+        toast.error("Signup failed. Please try again!");
       } else {
-        alert("Signup failed. Please try again!");
+        await supabase.auth.updateUser({
+          data: { full_name: name },
+        });
+
+        setLoggedIn(true);
+        setId(data.user?.id ?? "");
+        toast.success("Signup successful!");
+        onClose();
       }
     } catch (error) {
       console.error(error);
-      alert("An error occurred. Please try again later!");
+      toast.error("An error occurred. Please try again later!");
     }
   };
 

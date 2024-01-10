@@ -8,7 +8,7 @@ import { GoPerson } from "react-icons/go";
 import Link from "next/link";
 import useUploadModal from "@/hooks/useUploadModal";
 import useAuthModal from "@/hooks/useAuthModal";
-
+import { RiFolderMusicLine } from "react-icons/ri";
 const Library = () => {
   const uploadModal = useUploadModal();
   const authModal = useAuthModal();
@@ -55,6 +55,18 @@ const Library = () => {
             <p className="text-neutral-400 text-md font-medium">Artists</p>
           </div>
           <IoIosArrowForward
+            size={20}
+            className="text-neutral-400 cursor-pointer  hover:text-white transition"
+          />
+        </div>
+      </Link>    
+        <Link href="/yoursongs" className="">
+        <div className="flex items-center justify-between border-b-2 px-5 py-4 border-gray-500  hover:bg-white/20 transition ">
+          <div className="inline-flex items-center gap-x-2 ">
+            <RiFolderMusicLine size={26} className="text-neutral-400" />
+            <p className="text-neutral-400 text-md font-medium">Your Added Songs</p>
+          </div>
+        <IoIosArrowForward
             size={20}
             className="text-neutral-400 cursor-pointer  hover:text-white transition"
           />

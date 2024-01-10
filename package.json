@@ -2,13 +2,15 @@
   "name": "music-website",
   "version": "0.1.0",
   "private": true,
-  "main": "api/server.ts",
   "scripts": {
-    "dev": "concurrently \"next --port 3000\" \"node api/server.ts\""
+    "dev": "next --port 3000"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slider": "^1.1.2",
+    "@supabase/auth-helpers-nextjs": "^0.8.7",
+    "@supabase/auth-helpers-react": "^0.4.2",
+    "@supabase/supabase-js": "^2.39.2",
     "@types/node": "20.10.4",
     "@types/react": "18.2.42",
     "@types/react-dom": "18.2.17",

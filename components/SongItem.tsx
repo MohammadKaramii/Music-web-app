@@ -9,6 +9,8 @@ interface SongItemProps {
 }
 
 const SongItem: React.FC<SongItemProps> = ({ data, onClick }) => {
+
+  
   return (
     <div
       className=" relative 

@@ -1,10 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Header from "@/components/Header";
 import SearchInput from "@/components/SearchInput";
 import SearchContent from "@/components/SearchContent";
-import { Song } from "@/types";
-import { getAllSongs } from "@/services/songServices";
+import getSongsbyTitle from "@/actions/getSongsByTitle";
 
 interface SearchProps {
   searchParams: {
@@ -12,34 +11,8 @@ interface SearchProps {
   };
 }
 
-const Search: React.FC<SearchProps> = ({ searchParams }: SearchProps) => {
-  const [songs, setSongs] = useState<Song[]>([]);
-  const [filteredData, setFilteredData] = useState<Song[]>([]);
-  const searchQuery = searchParams.title;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getAllSongs();
-        setSongs(response.data);
-      } catch (error) {
-        console.error("Failed to fetch songs:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (!searchQuery) {
-      setFilteredData(songs);
-    } else {
-      const filteredSongs = songs.filter((item) =>
-        item.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredData(filteredSongs);
-    }
-  }, [songs, searchQuery]);
+const Search: React.FC<SearchProps> = async({ searchParams }: SearchProps) => {
+  const songs = await getSongsbyTitle(searchParams.title);
 
   return (
     <div className="bg-neutral-900  rounded-lg h-full w-full overflow-hidden overflow-y-auto">
@@ -49,7 +22,7 @@ const Search: React.FC<SearchProps> = ({ searchParams }: SearchProps) => {
           <SearchInput />
         </div>
       </Header>
-      <SearchContent songs={filteredData} />
+      <SearchContent songs={songs} />
     </div>
   );
 };

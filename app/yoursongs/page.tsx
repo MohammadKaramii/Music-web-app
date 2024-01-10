@@ -1,16 +1,29 @@
 "use client";
-
+import getSongsbyUserID from "@/actions/getSongsbyUserId";
 import Header from "@/components/Header";
 import SongContent from "@/components/SongContent";
-import getLikedSongs from '@/actions/getLikedSongs';
+import { useCallback, useEffect, useState } from "react";
+import { Song } from "@/types";
 import useUser from "@/hooks/useUser";
 import useAuthModal from "@/hooks/useAuthModal";
 
-
-const Liked = async() => {
+const UserSongs = () => {
+  const [userSongs, setUserSongs] = useState<Song[]>([]);
   const { id } = useUser();
   const authModal = useAuthModal();
-  const likedSongs = await getLikedSongs();
+
+  const fetchUserSongs = useCallback(async () => {
+    try {
+      const songs = await getSongsbyUserID();
+      setUserSongs(songs);
+    } catch (error: any) {
+      console.error("Error fetching songs:", error.message);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchUserSongs();
+  }, [fetchUserSongs]);
 
   const openAuthModal = (signupMode: boolean) => {
     authModal.onOpen();
@@ -23,9 +36,8 @@ const Liked = async() => {
         <div className="mt-20">
           <div className="flex flex-col items-center md:flex-row gap-x-5">
             <div className="flex flex-col gap-y-2 mt-4 md:mt-0">
-              <p className="hidden md:block font-semibold text-sm">Playlist</p>
               <h1 className="text-6xl text-white sm:text-5xl lg:text-4xl font-bold">
-                Liked Songs
+                Your Added Songs
               </h1>
             </div>
           </div>
@@ -36,17 +48,17 @@ const Liked = async() => {
           <button onClick={() => openAuthModal(false)} className="text-white">
             Signin
           </button>{" "}
-          to see liked songs or{" "}
+          to see your added songs or{" "}
           <button onClick={() => openAuthModal(true)} className="text-white">
             Signup
           </button>{" "}
           if you don&apos;t have an account
         </div>
       ) : (
-        <SongContent songs={likedSongs} />
+        <SongContent songs={userSongs} />
       )}
     </div>
   );
 };
 
-export default Liked;
+export default UserSongs;

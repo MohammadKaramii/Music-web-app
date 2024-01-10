@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
-
 import { Song } from "@/types";
-import { getSongbyId } from "@/services/songServices";
+import { supabase } from "@/supabase";
 
 const useGetSongbyId = (id?: string) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,19 +12,21 @@ const useGetSongbyId = (id?: string) => {
       return;
     }
 
+    setIsLoading(true);
     const fetchSong = async () => {
-      setIsLoading(true);
+      const { data, error } = await supabase
+        .from('songs')
+        .select('*')
+        .eq('id', id)
+        .single();
 
-      try {
-        const response = await getSongbyId(id);
-        setSong(response.data);
-      } catch (error: any) {
-        toast.error(error.message);
-      } finally {
+      if (error) {
         setIsLoading(false);
+        return toast.error(error.message);
       }
+      setSong(data as Song);
+      setIsLoading(false);
     };
-
     fetchSong();
   }, [id]);
 
