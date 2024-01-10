@@ -9,7 +9,7 @@ import LikeButton from "./LikeButton";
 import Slider from "./Slider";
 import usePlayer from "@/hooks/usePlayer";
 import { TbRepeat, TbRepeatOnce, TbRepeatOff } from "react-icons/tb";
-
+import useDebounce from "@/hooks/useDebounce";
 interface PlayerContentProps {
   song: Song;
   songUrl: string;
@@ -175,6 +175,17 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
     };
   }, [sound, onPlayNext]);
 
+  const handleVolumeChange = useCallback(
+    (value: number) => {
+      if (sound) {
+        sound.volume = value;
+        player.setVolume(value);
+        setCurrentTime(Math.floor(sound.currentTime));
+      }
+    },
+    [sound, player]
+  );
+
   return (
     <div className="grid grid-cols-3 h-full">
       <div className="flex justify-start w-full">
@@ -218,10 +229,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
             className="cursor-pointer"
             size={34}
           />
-          <Slider
-            value={player.volume}
-            onChange={(value) => player.setVolume(value)}
-          />
+          <Slider value={player.volume} onChange={handleVolumeChange} />
         </div>
       </div>
 
