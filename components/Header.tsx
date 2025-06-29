@@ -29,7 +29,6 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
     const { error } = await supabase.auth.signOut();
     player.reset();
     router.refresh();
-    setLoggedIn(false);
     if (error) {
       toast.error(error.message);
     } else {

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Modal from "./Modal";
 import useAuthModal from "@/hooks/useAuthModal";
 import uniqid from "uniqid";
-import useUser from "@/hooks/useUser";
 import { supabase } from "@/supabase";
 import { toast } from "react-hot-toast";
 
@@ -15,8 +14,7 @@ const AuthModal = () => {
   const { onClose, isOpen, name, setName } = useAuthModal();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setLoggedIn, signupMode, setSignupMode } = useAuthModal();
-  const { setId } = useUser();
+  const { signupMode, setSignupMode } = useAuthModal();
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
@@ -30,9 +28,6 @@ const AuthModal = () => {
       if (error) {
         toast.error("Invalid credentials. Please try again!");
       } else {
-        setLoggedIn(true);
-        setId(data.user?.id ?? "");
-        setName(data.user?.user_metadata?.full_name ?? "");
         toast.success("Login successful!");
         onClose();
       }
@@ -58,8 +53,6 @@ const AuthModal = () => {
           data: { full_name: name },
         });
 
-        setLoggedIn(true);
-        setId(data.user?.id ?? "");
         toast.success("Signup successful!");
         onClose();
       }

@@ -6,6 +6,8 @@ import Player from "@/components/Player";
 import ModalProvider from "@/providers/ModalProvider";
 import ToasterProvider from "@/providers/ToasterProvider";
 import { SongCacheProvider } from "@/providers/SongCacheProvider";
+import SupabaseAuthProvider from "@/providers/SupabaseAuthProvider";
+import AuthLoadingWrapper from "@/components/AuthLoadingWrapper";
 const font = Oxygen({ subsets: ["latin"], weight: ["300", "400", "700"] });
 
 export const metadata: Metadata = {
@@ -22,11 +24,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <ToasterProvider />
-        <SongCacheProvider>
-          <ModalProvider />
-          <Sidebar>{children}</Sidebar>
-          <Player />
-        </SongCacheProvider>
+        <SupabaseAuthProvider>
+          <AuthLoadingWrapper>
+            <SongCacheProvider>
+              <ModalProvider />
+              <Sidebar>{children}</Sidebar>
+              <Player />
+            </SongCacheProvider>
+          </AuthLoadingWrapper>
+        </SupabaseAuthProvider>
       </body>
     </html>
   );
