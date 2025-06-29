@@ -12,13 +12,14 @@ import { Song } from "@/types";
 import { supabase } from "@/supabase";
 import getSongs from "@/actions/getSongs";
 import useUser from "@/hooks/useUser";
+import { useSongCache } from "@/providers/SongCacheProvider";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Song title is required"),
   artist: Yup.string().required("Artist name is required"),
   song: Yup.string()
     .required("Song URL is required")
-    .test("valid-url", "Please enter a valid song URL", (value) => {
+    .test("valid-url", "Please enter a valid song URL", (value: string) => {
       try {
         new URL(value);
         return true;
@@ -28,7 +29,7 @@ const validationSchema = Yup.object({
     }),
   image: Yup.string()
     .required("Image URL is required")
-    .test("valid-url", "Please enter a valid image URL", (value) => {
+    .test("valid-url", "Please enter a valid image URL", (value: string) => {
       try {
         new URL(value);
         return true;
@@ -43,6 +44,7 @@ const UploadModal = () => {
   const [isLoading, setisLoading] = useState(false);
   const user = useUser();
   const router = useRouter();
+  const { clearCache } = useSongCache();
 
   const initialValues = {
     title: "",
@@ -91,6 +93,8 @@ const UploadModal = () => {
       if (uploadError) {
         throw new Error("Failed to upload song to Supabase");
       }
+
+      clearCache();
 
       setisLoading(false);
       toast.success("Song created!");

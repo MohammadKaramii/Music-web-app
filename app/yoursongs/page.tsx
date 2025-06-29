@@ -6,20 +6,35 @@ import { useCallback, useEffect, useState } from "react";
 import { Song } from "@/types";
 import useUser from "@/hooks/useUser";
 import useAuthModal from "@/hooks/useAuthModal";
+import { useSongCache, isCacheValid } from "@/providers/SongCacheProvider";
 
 const UserSongs = () => {
   const [userSongs, setUserSongs] = useState<Song[]>([]);
   const { id } = useUser();
   const authModal = useAuthModal();
+  const { cachedSongs, setCachedUserSongs } = useSongCache();
 
   const fetchUserSongs = useCallback(async () => {
     try {
+      if (!id) return;
+
+      if (
+        cachedSongs.userSongs.data &&
+        isCacheValid(cachedSongs.userSongs.timestamp)
+      ) {
+        
+        setUserSongs(cachedSongs.userSongs.data);
+        return;
+      }
+
       const songs = await getSongsbyUserID();
       setUserSongs(songs);
+
+      setCachedUserSongs(songs);
     } catch (error: any) {
       console.error("Error fetching songs:", error.message);
     }
-  }, []);
+  }, [id, cachedSongs.userSongs, setCachedUserSongs]);
 
   useEffect(() => {
     fetchUserSongs();

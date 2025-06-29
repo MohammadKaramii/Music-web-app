@@ -2,15 +2,43 @@
 
 import Header from "@/components/Header";
 import SongContent from "@/components/SongContent";
-import getLikedSongs from '@/actions/getLikedSongs';
+import getLikedSongs from "@/actions/getLikedSongs";
 import useUser from "@/hooks/useUser";
 import useAuthModal from "@/hooks/useAuthModal";
+import { useCallback, useEffect, useState } from "react";
+import { useSongCache, isCacheValid } from "@/providers/SongCacheProvider";
+import { Song } from "@/types";
 
-
-const Liked = async() => {
+const Liked = () => {
   const { id } = useUser();
   const authModal = useAuthModal();
-  const likedSongs = await getLikedSongs();
+  const [likedSongs, setLikedSongs] = useState<Song[]>([]);
+  const { cachedSongs, setCachedLikedSongs } = useSongCache();
+
+  const fetchLikedSongs = useCallback(async () => {
+    try {
+      if (!id) return;
+
+      if (
+        cachedSongs.likedSongs.data &&
+        isCacheValid(cachedSongs.likedSongs.timestamp)
+      ) {
+        setLikedSongs(cachedSongs.likedSongs.data);
+        return;
+      }
+
+      const songs = await getLikedSongs();
+      setLikedSongs(songs);
+
+      setCachedLikedSongs(songs);
+    } catch (error) {
+      console.error("Error fetching liked songs:", error);
+    }
+  }, [id, cachedSongs.likedSongs, setCachedLikedSongs]);
+
+  useEffect(() => {
+    fetchLikedSongs();
+  }, [fetchLikedSongs]);
 
   const openAuthModal = (signupMode: boolean) => {
     authModal.onOpen();

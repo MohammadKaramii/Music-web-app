@@ -5,23 +5,34 @@ import SongContent from "@/components/SongContent";
 import { useParams } from "next/navigation";
 import getSongsByArtist from "@/actions/getSongsByArtist";
 import { Song } from "@/types";
+import { useSongCache, isCacheValid } from "@/providers/SongCacheProvider";
 
 const ArtistSongs = () => {
   const [artistsSongs, setArtistsSongs] = useState<Song[]>([]);
   const { artistName } = useParams<{ artistName: string }>();
+  const { cachedSongs, setCachedArtistSongs } = useSongCache();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (
+          cachedSongs.artistSongs[artistName] &&
+          cachedSongs.artistSongs[artistName].data &&
+          isCacheValid(cachedSongs.artistSongs[artistName].timestamp)
+        ) {
+          setArtistsSongs(cachedSongs.artistSongs[artistName].data!);
+          return;
+        }
         const songs = await getSongsByArtist(artistName);
         setArtistsSongs(songs);
+        setCachedArtistSongs(artistName, songs);
       } catch (error) {
         console.error("Failed to fetch songs:", error);
       }
     };
 
     fetchData();
-  }, [artistName]);
+  }, [artistName, cachedSongs.artistSongs, setCachedArtistSongs]);
 
   return (
     <div className="bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-auto">

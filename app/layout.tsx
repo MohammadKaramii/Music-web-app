@@ -5,6 +5,7 @@ import { Oxygen } from "next/font/google";
 import Player from "@/components/Player";
 import ModalProvider from "@/providers/ModalProvider";
 import ToasterProvider from "@/providers/ToasterProvider";
+import { SongCacheProvider } from "@/providers/SongCacheProvider";
 const font = Oxygen({ subsets: ["latin"], weight: ["300", "400", "700"] });
 
 export const metadata: Metadata = {
@@ -21,10 +22,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <ToasterProvider />
-        <ModalProvider />
-        <Sidebar>{children}</Sidebar>
-        <Player />
-
+        <SongCacheProvider>
+          <ModalProvider />
+          <Sidebar>{children}</Sidebar>
+          <Player />
+        </SongCacheProvider>
       </body>
     </html>
   );

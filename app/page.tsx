@@ -7,29 +7,42 @@ import useAuthModal from "@/hooks/useAuthModal";
 import { supabase } from "@/supabase";
 import Loading from "./loading";
 import getSongs from "@/actions/getSongs";
+import { useSongCache, isCacheValid } from "@/providers/SongCacheProvider";
 
 export default function Home() {
   const [songs, setSongs] = useState<Song[]>([]);
   const { loggedIn, name } = useAuthModal();
   const [isLoading, setIsLoading] = useState(true);
+  const { cachedSongs, setCachedAllSongs } = useSongCache();
 
   const fetchSongs = useCallback(async () => {
     try {
+      if (
+        cachedSongs.allSongs.data &&
+        isCacheValid(cachedSongs.allSongs.timestamp)
+      ) {
+        setSongs(cachedSongs.allSongs.data);
+        setIsLoading(false);
+        return;
+      }
+
       const songs = await getSongs();
       setSongs(songs);
+
+      setCachedAllSongs(songs);
       setIsLoading(false);
     } catch (error: any) {
       console.error("Error fetching songs:", error.message);
     }
-  }, []);
+  }, [
+    cachedSongs.allSongs.data,
+    cachedSongs.allSongs.timestamp,
+    setCachedAllSongs,
+  ]);
 
   useEffect(() => {
-    if (isLoading) {
-      fetchSongs();
-    }
-  }, [isLoading, fetchSongs]);
-
-
+    fetchSongs();
+  }, [fetchSongs]);
 
   const currentTime = useMemo(() => new Date(), []);
   const hour = useMemo(() => currentTime.getHours(), [currentTime]);
