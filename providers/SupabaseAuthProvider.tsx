@@ -4,7 +4,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "@/supabase";
 import { User } from "@supabase/supabase-js";
 import useAuthModal from "@/hooks/useAuthModal";
-import useUser from "@/hooks/useUser";
 
 interface SupabaseAuthContextType {
   user: User | null;
@@ -34,10 +33,9 @@ export default function SupabaseAuthProvider({
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const { setLoggedIn, setName } = useAuthModal();
-  const { setId } = useUser();
 
   useEffect(() => {
-    // Get initial session
+
     const getInitialSession = async () => {
       const {
         data: { session },
@@ -46,12 +44,10 @@ export default function SupabaseAuthProvider({
       if (session?.user) {
         setUser(session.user);
         setLoggedIn(true);
-        setId(session.user.id);
         setName(session.user.user_metadata?.full_name || "");
       } else {
         setUser(null);
         setLoggedIn(false);
-        setId("");
         setName("");
       }
 
@@ -67,12 +63,10 @@ export default function SupabaseAuthProvider({
       if (session?.user) {
         setUser(session.user);
         setLoggedIn(true);
-        setId(session.user.id);
         setName(session.user.user_metadata?.full_name || "");
       } else {
         setUser(null);
         setLoggedIn(false);
-        setId("");
         setName("");
       }
       setLoading(false);
@@ -81,7 +75,7 @@ export default function SupabaseAuthProvider({
     return () => {
       subscription.unsubscribe();
     };
-  }, [setLoggedIn, setId, setName]);
+  }, [setLoggedIn, setName]);
 
   return (
     <SupabaseAuthContext.Provider value={{ user, loading }}>

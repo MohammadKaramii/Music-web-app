@@ -6,8 +6,15 @@ export interface Song {
   title: string;
   songPath: string;
   cover: string;
-  isLiked: boolean;
-  likedBy: string[];
+  user_id?: string;
+  created_at?: string;
+}
+
+export interface LikedSong {
+  id: string;
+  userId: string;
+  songId: string;
+  created_at: string;
 }
 
 export interface SidebarItemProps {

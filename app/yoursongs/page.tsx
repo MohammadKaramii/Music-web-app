@@ -7,43 +7,66 @@ import { Song } from "@/types";
 import useUser from "@/hooks/useUser";
 import useAuthModal from "@/hooks/useAuthModal";
 import { useSongCache, isCacheValid } from "@/providers/SongCacheProvider";
+import { BounceLoader } from "react-spinners";
 
 const UserSongs = () => {
   const [userSongs, setUserSongs] = useState<Song[]>([]);
-  const { id } = useUser();
+  const { user, isLoading: userLoading } = useUser();
   const authModal = useAuthModal();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { cachedSongs, setCachedUserSongs } = useSongCache();
 
   const fetchUserSongs = useCallback(async () => {
-    try {
-      if (!id) return;
+    if (!user?.id || isLoading) return;
 
+    setIsLoading(true);
+    setError(null);
+
+    try {
       if (
         cachedSongs.userSongs.data &&
         isCacheValid(cachedSongs.userSongs.timestamp)
       ) {
-        
         setUserSongs(cachedSongs.userSongs.data);
+        setIsLoading(false);
         return;
       }
 
       const songs = await getSongsbyUserID();
       setUserSongs(songs);
-
       setCachedUserSongs(songs);
     } catch (error: any) {
       console.error("Error fetching songs:", error.message);
+      setError(error.message || "Failed to load your songs");
+    } finally {
+      setIsLoading(false);
     }
-  }, [id, cachedSongs.userSongs, setCachedUserSongs]);
+  }, [user?.id, cachedSongs.userSongs, setCachedUserSongs, isLoading]);
 
   useEffect(() => {
-    fetchUserSongs();
-  }, [fetchUserSongs]);
+    if (user?.id) {
+      fetchUserSongs();
+    } else if (!userLoading && !user) {
+      setUserSongs([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, userLoading, fetchUserSongs]);
 
   const openAuthModal = (signupMode: boolean) => {
     authModal.onOpen();
-    authModal.setSignupMode(signupMode);
+    if (authModal.setSignupMode) {
+      authModal.setSignupMode(signupMode);
+    }
   };
+
+  if (userLoading) {
+    return (
+      <div className="bg-neutral-900 rounded-lg h-full w-full flex items-center justify-center">
+        <BounceLoader color="#B80000" size={40} />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-neutral-900 rounded-lg h-full w-full overflow-hidden overflow-y-auto">
@@ -58,16 +81,39 @@ const UserSongs = () => {
           </div>
         </div>
       </Header>
-      {!id ? (
-        <div className="gap-y-2 flex-col px-6 py-6 w-full text-xl text-neutral-400">
-          <button onClick={() => openAuthModal(false)} className="text-white">
-            Signin
-          </button>{" "}
-          to see your added songs or{" "}
-          <button onClick={() => openAuthModal(true)} className="text-white">
-            Signup
-          </button>{" "}
-          if you don&apos;t have an account
+
+      {!user ? (
+        <div className="flex flex-col gap-y-2 px-6 py-6 w-full text-xl text-neutral-400">
+          <p>You need to be signed in to see your added songs.</p>
+          <div className="flex gap-x-2">
+            <button
+              onClick={() => openAuthModal(false)}
+              className="text-white hover:underline"
+            >
+              Sign In
+            </button>
+            <span>or</span>
+            <button
+              onClick={() => openAuthModal(true)}
+              className="text-white hover:underline"
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
+      ) : error ? (
+        <div className="flex flex-col gap-y-2 px-6 py-6 w-full text-xl text-red-400">
+          <p>Error loading your songs: {error}</p>
+          <button
+            onClick={fetchUserSongs}
+            className="text-white hover:underline w-fit"
+          >
+            Try Again
+          </button>
+        </div>
+      ) : isLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <BounceLoader color="#B80000" size={40} />
         </div>
       ) : (
         <SongContent songs={userSongs} />
