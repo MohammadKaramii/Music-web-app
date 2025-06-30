@@ -10,9 +10,9 @@ import Input from "./Input";
 import Button from "./Button";
 import { Song } from "@/types";
 import { supabase } from "@/supabase";
-import getSongs from "@/actions/getSongs";
 import useUser from "@/hooks/useUser";
-import { useSongCache } from "@/providers/SongCacheProvider";
+import { useInvalidateQueries, useSongs } from "@/lib/queries";
+import { ButtonLoading } from "@/components/ui/LoadingStates";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Song title is required"),
@@ -42,9 +42,10 @@ const validationSchema = Yup.object({
 const UploadModal = () => {
   const uploadModal = useUploadModal();
   const [isLoading, setisLoading] = useState(false);
-  const user = useUser();
+  const { user } = useUser();
   const router = useRouter();
-  const { clearCache } = useSongCache();
+  const { invalidateAllSongs, invalidateUserSongs } = useInvalidateQueries();
+  const { data: existingSongs = [] } = useSongs();
 
   const initialValues = {
     title: "",
@@ -69,8 +70,8 @@ const UploadModal = () => {
     try {
       setisLoading(true);
 
-      const songs = await getSongs();
-      const isSongExists = songs.some(
+
+      const isSongExists = existingSongs.some(
         (song: Song) =>
           (song.title.toLowerCase() === values.title.toLowerCase() &&
             song.artist.toLowerCase() === values.artist.toLowerCase()) ||
@@ -88,13 +89,16 @@ const UploadModal = () => {
         artist: values.artist,
         songPath: values.song,
         cover: values.image,
-        user_id: user.id,
+        user_id: user?.id,
       });
       if (uploadError) {
         throw new Error("Failed to upload song to Supabase");
       }
 
-      clearCache();
+      invalidateAllSongs();
+      if (user?.id) {
+        invalidateUserSongs(user.id);
+      }
 
       setisLoading(false);
       toast.success("Song created!");
@@ -167,7 +171,14 @@ const UploadModal = () => {
           </div>
 
           <Button disabled={isLoading} type="submit" className="bg-purple-500">
-            Create
+            {isLoading ? (
+              <div className="flex items-center gap-2">
+                <ButtonLoading size={16} />
+                Creating...
+              </div>
+            ) : (
+              "Create"
+            )}
           </Button>
         </Form>
       </Formik>

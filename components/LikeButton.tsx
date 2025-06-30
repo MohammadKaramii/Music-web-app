@@ -1,10 +1,13 @@
 "use client";
 
+import React from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { Song } from "@/types";
 import useUser from "@/hooks/useUser";
 import useAuthModal from "@/hooks/useAuthModal";
-import useLikes from "@/hooks/useLikes";
+import { useLikeSong, useUserLikes } from "@/lib/queries";
+import { ButtonLoading } from "@/components/ui/LoadingStates";
+import { toast } from "react-hot-toast";
 
 interface LikeButtonProps {
   song: Song;
@@ -14,25 +17,43 @@ interface LikeButtonProps {
 const LikeButton: React.FC<LikeButtonProps> = ({ song, size = 25 }) => {
   const { user } = useUser();
   const { onOpen } = useAuthModal();
-  const { isLiked, toggleLike } = useLikes();
+  const { data: likedSongIds = [] } = useUserLikes(user?.id || "");
+  const likeMutation = useLikeSong();
 
-  const liked = isLiked(song.id);
-  const Icon = liked ? AiFillHeart : AiOutlineHeart;
+  const isLiked = likedSongIds.includes(song.id);
+  const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
 
-  const handleLike = () => {
-    if (!user) {
+  const handleLike = async () => {
+    if (!user?.id) {
       return onOpen();
     }
-    toggleLike(song.id);
+
+    try {
+      const result = await likeMutation.mutateAsync({
+        songId: song.id,
+        userId: user.id,
+        isLiked,
+      });
+    } catch (error) {
+      toast.error("Failed to like song");
+    }
   };
 
   return (
     <button
-      className="cursor-pointer hover:opacity-75 transition"
+      className="cursor-pointer hover:opacity-75 transition disabled:opacity-50 disabled:cursor-not-allowed"
       onClick={handleLike}
-      aria-label={liked ? "Unlike song" : "Like song"}
+      disabled={likeMutation.isPending}
+      aria-label={isLiked ? "Unlike song" : "Like song"}
     >
-      <Icon color={liked ? "#B80000" : "white"} size={size} />
+      {likeMutation.isPending ? (
+        <ButtonLoading
+          size={size * 0.6}
+          color={isLiked ? "#B80000" : "white"}
+        />
+      ) : (
+        <Icon color={isLiked ? "#B80000" : "white"} size={size} />
+      )}
     </button>
   );
 };

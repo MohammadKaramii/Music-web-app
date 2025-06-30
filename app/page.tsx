@@ -1,48 +1,19 @@
 "use client";
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useMemo, useEffect } from "react";
 import Header from "@/components/Header";
-import { Song } from "@/types";
 import PageContent from "@/components/PageContent";
 import useAuthModal from "@/hooks/useAuthModal";
-import { supabase } from "@/supabase";
-import Loading from "./loading";
-import getSongs from "@/actions/getSongs";
-import { useSongCache, isCacheValid } from "@/providers/SongCacheProvider";
+import { useSongs, usePrefetchQueries } from "@/lib/queries";
+import { GridSkeleton, ErrorState } from "@/components/ui/LoadingStates";
 
 export default function Home() {
-  const [songs, setSongs] = useState<Song[]>([]);
   const { loggedIn, name } = useAuthModal();
-  const [isLoading, setIsLoading] = useState(true);
-  const { cachedSongs, setCachedAllSongs } = useSongCache();
-
-  const fetchSongs = useCallback(async () => {
-    try {
-      if (
-        cachedSongs.allSongs.data &&
-        isCacheValid(cachedSongs.allSongs.timestamp)
-      ) {
-        setSongs(cachedSongs.allSongs.data);
-        setIsLoading(false);
-        return;
-      }
-
-      const songs = await getSongs();
-      setSongs(songs);
-
-      setCachedAllSongs(songs);
-      setIsLoading(false);
-    } catch (error: any) {
-      console.error("Error fetching songs:", error.message);
-    }
-  }, [
-    cachedSongs.allSongs.data,
-    cachedSongs.allSongs.timestamp,
-    setCachedAllSongs,
-  ]);
+  const { data: songs = [], isLoading, error, refetch } = useSongs();
+  const { prefetchArtists } = usePrefetchQueries();
 
   useEffect(() => {
-    fetchSongs();
-  }, [fetchSongs]);
+    prefetchArtists();
+  }, [prefetchArtists]);
 
   const currentTime = useMemo(() => new Date(), []);
   const hour = useMemo(() => currentTime.getHours(), [currentTime]);
@@ -69,10 +40,13 @@ export default function Home() {
         </div>
       </Header>
       <div className="mt-2 mb-7 px-6">
-        {isLoading ? (
-          <div className="mt-[400px]">
-            <Loading />
-          </div>
+        {error ? (
+          <ErrorState
+            message="Failed to load songs. Please try again."
+            onRetry={refetch}
+          />
+        ) : isLoading ? (
+          <GridSkeleton count={12} />
         ) : (
           <>
             <div className="flex items-center justify-between">

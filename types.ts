@@ -7,7 +7,6 @@ export interface Song {
   songPath: string;
   cover: string;
   user_id?: string;
-  created_at?: string;
 }
 
 export interface LikedSong {

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import useGetSongbyId from "@/hooks/useGetSongbyId";
 import usePlayer from "@/hooks/usePlayer";
 import PlayerContent from "./PlayerContent";

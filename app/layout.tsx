@@ -1,15 +1,14 @@
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
-import "./globals.css";
 import type { Metadata } from "next";
 import { Oxygen } from "next/font/google";
 import Player from "@/components/Player";
 import ModalProvider from "@/providers/ModalProvider";
 import ToasterProvider from "@/providers/ToasterProvider";
-import { SongCacheProvider } from "@/providers/SongCacheProvider";
+import QueryProvider from "@/providers/QueryProvider";
 import SupabaseAuthProvider from "@/providers/SupabaseAuthProvider";
+import NavigationWrapper from "@/components/NavigationWrapper";
 import { UserProvider } from "@/hooks/useUser";
-import { LikesProvider } from "@/hooks/useLikes";
 
 const font = Oxygen({ subsets: ["latin"], weight: ["300", "400", "700"] });
 
@@ -31,13 +30,13 @@ export default async function RootLayout({
         <ToasterProvider />
         <SupabaseAuthProvider>
           <UserProvider>
-            <LikesProvider>
-              <SongCacheProvider>
-                <ModalProvider />
+            <QueryProvider>
+              <ModalProvider />
+              <NavigationWrapper>
                 <Sidebar>{children}</Sidebar>
-                <Player />
-              </SongCacheProvider>
-            </LikesProvider>
+              </NavigationWrapper>
+              <Player />
+            </QueryProvider>
           </UserProvider>
         </SupabaseAuthProvider>
       </body>

@@ -1,57 +1,25 @@
 "use client";
-import getSongsbyUserID from "@/actions/getSongsbyUserId";
 import Header from "@/components/Header";
 import SongContent from "@/components/SongContent";
-import { useCallback, useEffect, useState } from "react";
-import { Song } from "@/types";
 import useUser from "@/hooks/useUser";
 import useAuthModal from "@/hooks/useAuthModal";
-import { useSongCache, isCacheValid } from "@/providers/SongCacheProvider";
-import { BounceLoader } from "react-spinners";
+import { useSongsByUser } from "@/lib/queries";
+import {
+  FullPageLoading,
+  ListSkeleton,
+  ErrorState,
+  EmptyState,
+} from "@/components/ui/LoadingStates";
 
 const UserSongs = () => {
-  const [userSongs, setUserSongs] = useState<Song[]>([]);
   const { user, isLoading: userLoading } = useUser();
   const authModal = useAuthModal();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const { cachedSongs, setCachedUserSongs } = useSongCache();
-
-  const fetchUserSongs = useCallback(async () => {
-    if (!user?.id || isLoading) return;
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      if (
-        cachedSongs.userSongs.data &&
-        isCacheValid(cachedSongs.userSongs.timestamp)
-      ) {
-        setUserSongs(cachedSongs.userSongs.data);
-        setIsLoading(false);
-        return;
-      }
-
-      const songs = await getSongsbyUserID();
-      setUserSongs(songs);
-      setCachedUserSongs(songs);
-    } catch (error: any) {
-      console.error("Error fetching songs:", error.message);
-      setError(error.message || "Failed to load your songs");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [user?.id, cachedSongs.userSongs, setCachedUserSongs, isLoading]);
-
-  useEffect(() => {
-    if (user?.id) {
-      fetchUserSongs();
-    } else if (!userLoading && !user) {
-      setUserSongs([]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id, userLoading, fetchUserSongs]);
+  const {
+    data: userSongs = [],
+    isLoading,
+    error,
+    refetch,
+  } = useSongsByUser(user?.id || "");
 
   const openAuthModal = (signupMode: boolean) => {
     authModal.onOpen();
@@ -61,11 +29,7 @@ const UserSongs = () => {
   };
 
   if (userLoading) {
-    return (
-      <div className="bg-neutral-900 rounded-lg h-full w-full flex items-center justify-center">
-        <BounceLoader color="#B80000" size={40} />
-      </div>
-    );
+    return <FullPageLoading />;
   }
 
   return (
@@ -77,6 +41,11 @@ const UserSongs = () => {
               <h1 className="text-6xl text-white sm:text-5xl lg:text-4xl font-bold">
                 Your Added Songs
               </h1>
+              {userSongs.length > 0 && (
+                <p className="text-neutral-400 text-sm">
+                  {userSongs.length} song{userSongs.length !== 1 ? "s" : ""}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -102,18 +71,20 @@ const UserSongs = () => {
           </div>
         </div>
       ) : error ? (
-        <div className="flex flex-col gap-y-2 px-6 py-6 w-full text-xl text-red-400">
-          <p>Error loading your songs: {error}</p>
-          <button
-            onClick={fetchUserSongs}
-            className="text-white hover:underline w-fit"
-          >
-            Try Again
-          </button>
+        <div className="px-6">
+          <ErrorState
+            message="Failed to load your songs. Please try again."
+            onRetry={refetch}
+          />
         </div>
       ) : isLoading ? (
-        <div className="flex items-center justify-center py-12">
-          <BounceLoader color="#B80000" size={40} />
+        <ListSkeleton count={8} />
+      ) : userSongs.length === 0 ? (
+        <div className="px-6">
+          <EmptyState
+            title="No songs uploaded yet"
+            description="Upload your first song to see it here!"
+          />
         </div>
       ) : (
         <SongContent songs={userSongs} />
