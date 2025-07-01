@@ -1,12 +1,7 @@
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/supabase";
 import { Song } from "@/types";
 import toast from "react-hot-toast";
-
 
 export const queryKeys = {
   songs: {
@@ -27,12 +22,10 @@ export const queryKeys = {
   },
 } as const;
 
-
 const handleSupabaseError = (error: any) => {
   console.error("Supabase error:", error);
   throw new Error(error?.message || "An error occurred while fetching data");
 };
-
 
 export const useSongs = () => {
   return useQuery({
@@ -46,7 +39,7 @@ export const useSongs = () => {
       if (error) handleSupabaseError(error);
       return data || [];
     },
-      staleTime: 10 * 60 * 1000,
+    staleTime: 10 * 60 * 1000,
   });
 };
 
@@ -85,6 +78,28 @@ export const useSongsByTitle = (title: string) => {
       return data || [];
     },
     enabled: !!title && title.length >= 2,
+    staleTime: 5 * 60 * 1000,
+  });
+};
+
+export const useSearchSongs = (searchTerm: string) => {
+  return useQuery({
+    queryKey: ["songs", "search", searchTerm],
+    queryFn: async (): Promise<Song[]> => {
+      if (!searchTerm || searchTerm.length < 2) return [];
+
+      // Search by both title and artist using OR condition
+      const { data, error } = await supabase
+        .from("songs")
+        .select("*")
+        .or(`title.ilike.%${searchTerm}%,artist.ilike.%${searchTerm}%`)
+        .order("title", { ascending: true })
+        .limit(50);
+
+      if (error) handleSupabaseError(error);
+      return data || [];
+    },
+    enabled: !!searchTerm && searchTerm.length >= 2,
     staleTime: 5 * 60 * 1000,
   });
 };
@@ -147,7 +162,6 @@ export const useSong = (id: string) => {
     staleTime: 30 * 60 * 1000,
   });
 };
-
 
 export const useArtists = () => {
   return useQuery({
@@ -282,7 +296,6 @@ export const useLikeSong = () => {
         );
       }
 
-
       toast.error("Failed to update like. Please try again.");
     },
     onSuccess: (data, variables) => {
@@ -351,7 +364,6 @@ export const useInvalidateQueries = () => {
     clearCache: () => queryClient.clear(),
   };
 };
-
 
 export const usePrefetchQueries = () => {
   const queryClient = useQueryClient();

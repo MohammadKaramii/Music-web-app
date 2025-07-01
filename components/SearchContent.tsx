@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import { Song } from "@/types";
 import MediaItem from "./MediaItem";
 import LikeButton from "@/components/LikeButton";
-import { useSongsByTitle } from "@/lib/queries";
+import { useSearchSongs } from "@/lib/queries";
 import {
   SearchLoading,
   ListSkeleton,
@@ -22,7 +21,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ searchTitle }) => {
     isLoading,
     error,
     refetch,
-  } = useSongsByTitle(searchTitle || "");
+  } = useSearchSongs(searchTitle || "");
 
   if (error) {
     return (
@@ -49,7 +48,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ searchTitle }) => {
       <div className="px-6">
         <EmptyState
           title="Start typing to search"
-          description="Enter at least 2 characters to search for songs"
+          description="Enter at least 2 characters to search for songs by title or artist"
         />
       </div>
     );
