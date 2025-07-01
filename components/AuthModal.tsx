@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Modal from "./Modal";
 import useAuthModal from "@/hooks/useAuthModal";
-import uniqid from "uniqid";
 import { supabase } from "@/supabase";
 import { toast } from "react-hot-toast";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 interface User {
   name: string;
@@ -15,9 +15,12 @@ const AuthModal = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signupMode, setSignupMode } = useAuthModal();
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = async (e: any) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -26,7 +29,7 @@ const AuthModal = () => {
       });
 
       if (error) {
-        toast.error("Invalid credentials. Please try again!");
+        toast.error(error.message || "Invalid credentials. Please try again!");
       } else {
         toast.success("Login successful!");
         onClose();
@@ -34,11 +37,14 @@ const AuthModal = () => {
     } catch (error) {
       console.error(error);
       toast.error("An error occurred. Please try again later!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleSignup = async (e: any) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -47,18 +53,22 @@ const AuthModal = () => {
       });
 
       if (error) {
-        toast.error("Signup failed. Please try again!");
+        toast.error(error.message || "Signup failed. Please try again!");
       } else {
         await supabase.auth.updateUser({
           data: { full_name: name },
         });
 
-        toast.success("Signup successful!");
+        toast.success(
+          "Signup successful! Check your email to confirm your account."
+        );
         onClose();
       }
     } catch (error) {
       console.error(error);
       toast.error("An error occurred. Please try again later!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -70,28 +80,37 @@ const AuthModal = () => {
 
   const toggleSignupMode = () => {
     setSignupMode(!signupMode);
+    // Reset form when switching modes
+    setEmail("");
+    setPassword("");
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
     <Modal
       title={signupMode ? "Create an account" : "Welcome back"}
       description={
-        signupMode ? "Sign up to create a new account" : "Login to your account"
+        signupMode
+          ? "Sign up to continue to Music Web App"
+          : "Login to your account"
       }
       onChange={onChange}
       isOpen={isOpen}
     >
-      <div className="items-center justify-center px-6 py-8 mx-auto lg:py-0">
-        <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+      <div className="flex items-center justify-center w-full overflow-y-auto">
+        <div className="w-full p-2 space-y-4">
           <form
-            className="space-y-4 md:space-y-6"
+            className="space-y-4"
             onSubmit={signupMode ? handleSignup : handleLogin}
           >
             {signupMode && (
               <div>
                 <label
                   htmlFor="name"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-1 text-sm font-medium text-white"
                 >
                   Your name
                 </label>
@@ -101,8 +120,8 @@ const AuthModal = () => {
                   value={name}
                   id="name"
                   onChange={(e) => setName(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Name"
+                  className="w-full py-2 px-3 bg-neutral-700 border border-neutral-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                  placeholder="Enter your name"
                   required={true}
                 />
               </div>
@@ -110,9 +129,9 @@ const AuthModal = () => {
             <div>
               <label
                 htmlFor="email"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-1 text-sm font-medium text-white"
               >
-                Your email
+                Email address
               </label>
               <input
                 type="email"
@@ -120,48 +139,67 @@ const AuthModal = () => {
                 value={email}
                 id="email"
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@company.com"
+                className="w-full py-2 px-3 bg-neutral-700 border border-neutral-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                placeholder="name@example.com"
                 required={true}
               />
             </div>
             <div>
               <label
                 htmlFor="password"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-1 text-sm font-medium text-white"
               >
                 Password
               </label>
-              <input
-                type="password"
-                name="password"
-                value={password}
-                id="password"
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required={true}
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={password}
+                  id="password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full py-2 px-3 bg-neutral-700 border border-neutral-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                  required={true}
+                  minLength={6}
+                />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+                >
+                  {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                </button>
+              </div>
+              <p className="text-xs text-gray-400 mt-1">
+                {signupMode && "Password must be at least 6 characters"}
+              </p>
             </div>
 
             <button
               type="submit"
-              className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              disabled={isLoading}
+              className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-800 font-medium rounded-lg py-2 px-4 transition duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {signupMode ? "Sign up" : "Sign in"}
+              {isLoading
+                ? "Loading..."
+                : signupMode
+                ? "Create account"
+                : "Sign in"}
             </button>
-            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+
+            <div className="text-sm font-medium text-center text-gray-300">
               {signupMode
                 ? "Already have an account?"
-                : "Don’t have an account yet?"}{" "}
-              <a
-                href="#"
-                className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                : "Don't have an account?"}{" "}
+              <button
+                type="button"
+                className="text-blue-500 hover:underline font-semibold"
                 onClick={toggleSignupMode}
               >
                 {signupMode ? "Sign in" : "Sign up"}
-              </a>
-            </p>
+              </button>
+            </div>
           </form>
         </div>
       </div>

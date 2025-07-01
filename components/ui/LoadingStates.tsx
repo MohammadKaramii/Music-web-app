@@ -15,7 +15,6 @@ interface LoadingSpinnerProps {
   className?: string;
 }
 
-
 export const FullPageLoading: React.FC<LoadingSpinnerProps> = ({
   size = 40,
   color = "#bc2a8d",
@@ -30,7 +29,6 @@ export const FullPageLoading: React.FC<LoadingSpinnerProps> = ({
   );
 };
 
-
 export const InlineLoading: React.FC<LoadingSpinnerProps> = ({
   size = 20,
   color = "#bc2a8d",
@@ -43,7 +41,6 @@ export const InlineLoading: React.FC<LoadingSpinnerProps> = ({
   );
 };
 
-
 export const CardSkeleton: React.FC = () => {
   return (
     <div className="bg-neutral-800 rounded-md p-3 animate-pulse">
@@ -53,7 +50,6 @@ export const CardSkeleton: React.FC = () => {
     </div>
   );
 };
-
 
 export const SongItemSkeleton: React.FC = () => {
   return (
@@ -67,7 +63,6 @@ export const SongItemSkeleton: React.FC = () => {
   );
 };
 
-
 export const SearchLoading: React.FC = () => {
   return (
     <div className="flex flex-col gap-2 px-6">
@@ -79,7 +74,6 @@ export const SearchLoading: React.FC = () => {
   );
 };
 
-
 export const GridSkeleton: React.FC<{ count?: number }> = ({ count = 8 }) => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 mt-4">
@@ -89,7 +83,6 @@ export const GridSkeleton: React.FC<{ count?: number }> = ({ count = 8 }) => {
     </div>
   );
 };
-
 
 export const ListSkeleton: React.FC<{ count?: number }> = ({ count = 5 }) => {
   return (
@@ -101,7 +94,6 @@ export const ListSkeleton: React.FC<{ count?: number }> = ({ count = 5 }) => {
   );
 };
 
-
 export const NavigationLoading: React.FC = () => {
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
@@ -110,14 +102,12 @@ export const NavigationLoading: React.FC = () => {
   );
 };
 
-
 export const ButtonLoading: React.FC<LoadingSpinnerProps> = ({
   size = 16,
   color = "white",
 }) => {
   return <ClipLoader color={color} size={size} />;
 };
-
 
 export const ErrorState: React.FC<{
   message?: string;
@@ -157,7 +147,6 @@ export const ErrorState: React.FC<{
   );
 };
 
-
 export const EmptyState: React.FC<{
   title?: string;
   description?: string;
@@ -169,10 +158,10 @@ export const EmptyState: React.FC<{
 }) => {
   return (
     <Box className="h-full flex items-center justify-center">
-      <div className="text-center">
-        <div className="text-neutral-400 mb-4">
+      <div className="text-center w-full max-w-md mx-auto mt-16">
+        <div className="text-neutral-400 mb-6">
           <svg
-            className="mx-auto h-12 w-12"
+            className="mx-auto h-16 w-16"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -185,14 +174,13 @@ export const EmptyState: React.FC<{
             />
           </svg>
         </div>
-        <h3 className="text-white text-lg font-medium mb-2">{title}</h3>
-        <p className="text-neutral-400 text-sm mb-4">{description}</p>
+        <h3 className="text-white text-xl font-medium mb-3">{title}</h3>
+        <p className="text-neutral-400 text-sm mb-6">{description}</p>
         {action}
       </div>
     </Box>
   );
 };
-
 
 export const LoadingOverlay: React.FC<{
   isVisible: boolean;
@@ -209,7 +197,6 @@ export const LoadingOverlay: React.FC<{
     </div>
   );
 };
-
 
 export const SuspenseFallback: React.FC<{ children: React.ReactNode }> = ({
   children,

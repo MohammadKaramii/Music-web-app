@@ -46,8 +46,10 @@ const Modal: React.FC<ModalProps> = ({
           translate-y-[-50%] 
           rounded-md 
           bg-neutral-800 
-          p-[25px] 
+          p-[20px] 
           focus:outline-none
+          flex
+          flex-col
         "
         >
           <Dialog.Title
@@ -55,22 +57,24 @@ const Modal: React.FC<ModalProps> = ({
             text-xl 
             text-center 
             font-bold 
-            mb-4
+            mb-2
+            flex-shrink-0
           "
           >
             {title}
           </Dialog.Title>
           <Dialog.Description
             className="
-            mb-5 
+            mb-4 
             text-sm 
             leading-normal 
             text-center
+            flex-shrink-0
           "
           >
             {description}
           </Dialog.Description>
-          <div>{children}</div>
+          <div className="overflow-y-auto flex-1 pr-1">{children}</div>
           <Dialog.Close asChild>
             <button
               className="
