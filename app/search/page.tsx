@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
 import Header from "@/components/Header";
-import SearchInput from "@/components/SearchInput";
 import SearchContent from "@/components/SearchContent";
+import SearchInput from "@/components/SearchInput";
+import React from "react";
 
 interface SearchProps {
   searchParams: {

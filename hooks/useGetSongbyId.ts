@@ -1,7 +1,7 @@
+import { supabase } from "@/supabase";
+import { Song } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
-import { Song } from "@/types";
-import { supabase } from "@/supabase";
 
 const useGetSongbyId = (id?: string) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,19 +14,17 @@ const useGetSongbyId = (id?: string) => {
 
     setIsLoading(true);
     const fetchSong = async () => {
-      const { data, error } = await supabase
-        .from('songs')
-        .select('*')
-        .eq('id', id)
-        .single();
+      const { data, error } = await supabase.from("songs").select("*").eq("id", id).single();
 
       if (error) {
         setIsLoading(false);
+
         return toast.error(error.message);
       }
       setSong(data as Song);
       setIsLoading(false);
     };
+
     fetchSong();
   }, [id]);
 

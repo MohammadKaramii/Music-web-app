@@ -1,15 +1,16 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
-import { BsPauseFill, BsPlayFill } from "react-icons/bs";
-import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
-import { HiSpeakerXMark, HiSpeakerWave } from "react-icons/hi2";
-import ShuffleButton from "./ShuffleButton";
-import { Song } from "@/types";
-import MediaItem from "./MediaItem";
-import LikeButton from "./LikeButton";
-import Slider from "./Slider";
 import usePlayer from "@/hooks/usePlayer";
-import { TbRepeat, TbRepeatOnce, TbRepeatOff } from "react-icons/tb";
-import useDebounce from "@/hooks/useDebounce";
+import { Song } from "@/types";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
+import { BsPauseFill, BsPlayFill } from "react-icons/bs";
+import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
+import { TbRepeat, TbRepeatOff, TbRepeatOnce } from "react-icons/tb";
+
+import LikeButton from "./LikeButton";
+import MediaItem from "./MediaItem";
+import ShuffleButton from "./ShuffleButton";
+import Slider from "./Slider";
+
 interface PlayerContentProps {
   song: Song;
   songUrl: string;
@@ -22,25 +23,21 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const [duration, setDuration] = useState(0);
   const sound = useMemo(() => new Audio(songUrl), [songUrl]);
 
-  const Icon = useMemo(
-    () => (isPlaying ? BsPauseFill : BsPlayFill),
-    [isPlaying]
-  );
+  const Icon = useMemo(() => (isPlaying ? BsPauseFill : BsPlayFill), [isPlaying]);
 
-  const ValumeIcon = useMemo(
-    () => (player.volume === 0 ? HiSpeakerXMark : HiSpeakerWave),
-    [player.volume]
-  );
+  const ValumeIcon = useMemo(() => (player.volume === 0 ? HiSpeakerXMark : HiSpeakerWave), [player.volume]);
 
   const toggleShuffle = useCallback(() => {
     player.setShuffleMode(!player.shuffleMode);
   }, [player]);
+
   useMemo(() => {
     if (player.shuffleMode) {
       player.setIds(player.initialIds.slice().sort(() => Math.random() - 0.5));
     } else {
       player.setIds(player.initialIds);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player.shuffleMode]);
 
   const toggleRepeat = useCallback(() => {
@@ -51,14 +48,16 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
     } else {
       player.setRepeatMode("off");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player.repeatMode]);
 
   const onPlayNext = useCallback(() => {
-    if (player.ids.length == 0) {
+    if (player.ids.length === 0) {
       return;
     }
     const currentSong = player.ids.findIndex((id) => id === player.activeId);
     const nextSong = player.ids[currentSong + 1];
+
     if (!nextSong) {
       return player.setId(player.ids[0]);
     }
@@ -66,11 +65,12 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   }, [player]);
 
   const onPlayPrevious = useCallback(() => {
-    if (player.ids.length == 0) {
+    if (player.ids.length === 0) {
       return;
     }
     const currentSong = player.ids.findIndex((id) => id === player.activeId);
     const previousSong = player.ids[currentSong - 1];
+
     if (!previousSong) {
       return player.setId(player.ids[player.ids.length - 1]);
     }
@@ -79,14 +79,17 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
 
   useEffect(() => {
     let interval: any;
+
     if (sound) {
       sound.volume = player.volume;
       sound.play();
       setDuration(sound.duration);
       const updateCurrentTime = () => {
         const newPosition = Math.floor(sound.currentTime || 0);
+
         setCurrentTime(newPosition);
       };
+
       interval = setInterval(() => {
         updateCurrentTime();
       }, 1000);
@@ -102,13 +105,13 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   }, [sound, player.volume]);
 
   const handlePlay = useCallback(() => {
-    if (!isPlaying) {
+    if (isPlaying) {
+      sound.pause();
+      setIsPlaying(false);
+    } else {
       sound.volume = player.volume;
       sound.play();
       setIsPlaying(true);
-    } else {
-      sound.pause();
-      setIsPlaying(false);
     }
   }, [isPlaying, sound, player.volume]);
 
@@ -128,18 +131,21 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
     const seconds = Math.floor(duration % 60);
     const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
     const formattedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+
     return `${formattedMinutes} : ${formattedSeconds}`;
   };
 
   const handleSeek = useCallback(
     (value: number) => {
       const newPosition = Math.floor(sound.duration * value);
+
       setCurrentTime(newPosition);
       if (sound) {
         sound.currentTime = newPosition;
       }
     },
-    [sound, duration]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sound, duration],
   );
 
   const IconRepeat = useMemo(() => {
@@ -161,6 +167,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
     } else if (player.repeatMode === "all") {
       onPlayNext();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [player.repeatMode]);
 
   useEffect(() => {
@@ -173,6 +180,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       sound.removeEventListener("pause", () => setIsPlaying(false));
       sound.removeEventListener("ended", handleMusicEnded);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sound, onPlayNext]);
 
   const handleVolumeChange = useCallback(
@@ -183,7 +191,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
         setCurrentTime(Math.floor(sound.currentTime));
       }
     },
-    [sound, player]
+    [sound, player],
   );
 
   return (
@@ -224,39 +232,25 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
 
       <div className="hidden md:flex w-full justify-end pr-2">
         <div className="flex items-center gap-x-2 w-[120px]">
-          <ValumeIcon
-            onClick={toggleMute}
-            className="cursor-pointer"
-            size={34}
-          />
+          <ValumeIcon onClick={toggleMute} className="cursor-pointer" size={34} />
           <Slider value={player.volume} onChange={handleVolumeChange} />
         </div>
       </div>
 
       <div className="hidden md:flex w-full  md:justify-start pl-4">
-        <ShuffleButton
-          shuffleMode={player.shuffleMode}
-          toggleShuffle={toggleShuffle}
-        />
+        <ShuffleButton shuffleMode={player.shuffleMode} toggleShuffle={toggleShuffle} />
       </div>
 
       <div className="flex col-span-3 md:col-span-1 h-full justify-center items-center w-full max-w-[722px] px-3 md:px-0 gap-x-6">
         <div className="flex items-center justify-center w-full  max-w-[722px] gap-x-2">
-          <span className="text-white whitespace-nowrap p-2">
-            {formatDuration(currentTime)}
-          </span>
+          <span className="text-white whitespace-nowrap p-2">{formatDuration(currentTime)}</span>
           <Slider value={currentTime / sound.duration} onChange={handleSeek} />
 
-          <span className="text-white whitespace-nowrap p-2">
-            {formatDuration(sound.duration)}
-          </span>
+          <span className="text-white whitespace-nowrap p-2">{formatDuration(sound.duration)}</span>
         </div>
       </div>
       <div className="flex col-span-2 md:hidden pb-3 w-full md:justify-start pl-5">
-        <ShuffleButton
-          shuffleMode={player.shuffleMode}
-          toggleShuffle={toggleShuffle}
-        />
+        <ShuffleButton shuffleMode={player.shuffleMode} toggleShuffle={toggleShuffle} />
       </div>
       <div className="flex w-full justify-end pb-3 md:pb-0 pr-10 md:pr-2">
         <button onClick={toggleRepeat}>

@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { Artist } from "@/types";
+import Image from "next/image";
+
 interface ArtistItemProps {
   data: Artist;
 }
@@ -32,12 +33,7 @@ const ArtistItem: React.FC<ArtistItemProps> = ({ data }) => {
           rounded-md 
           overflow-hidden"
       >
-        <Image
-          className="object-cover"
-          src={data.picture}
-          fill
-          alt="cover image"
-        />
+        <Image className="object-cover" src={data.picture} fill alt="cover image" />
       </div>
       <div className="flex flex-col items-start w-full pt-4 gap-y-1">
         <p className="font-semibold truncate w-full">{data.name}</p>

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import Modal from "./Modal";
 import useAuthModal from "@/hooks/useAuthModal";
 import { supabase } from "@/supabase";
+import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+
+import Modal from "./Modal";
 
 const AuthModal = () => {
   const { onClose, isOpen, name, setName } = useAuthModal();

@@ -1,35 +1,23 @@
 "use client";
 
-import React from "react";
-import MediaItem from "./MediaItem";
 import LikeButton from "@/components/LikeButton";
+import { EmptyState, ErrorState, ListSkeleton, SearchLoading } from "@/components/ui/LoadingStates";
 import { useSearchSongs } from "@/lib/queries";
-import {
-  SearchLoading,
-  ListSkeleton,
-  EmptyState,
-  ErrorState,
-} from "@/components/ui/LoadingStates";
+import React from "react";
+
+import MediaItem from "./MediaItem";
 
 interface SearchContentProps {
   searchTitle: string;
 }
 
 const SearchContent: React.FC<SearchContentProps> = ({ searchTitle }) => {
-  const {
-    data: songs = [],
-    isLoading,
-    error,
-    refetch,
-  } = useSearchSongs(searchTitle || "");
+  const { data: songs = [], isLoading, error, refetch } = useSearchSongs(searchTitle || "");
 
   if (error) {
     return (
       <div className="px-6">
-        <ErrorState
-          message="Failed to search songs. Please try again."
-          onRetry={refetch}
-        />
+        <ErrorState message="Failed to search songs. Please try again." onRetry={refetch} />
       </div>
     );
   }
@@ -57,10 +45,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ searchTitle }) => {
   if (songs.length === 0) {
     return (
       <div className="px-6">
-        <EmptyState
-          title="No songs found"
-          description={`No results found for "${searchTitle}"`}
-        />
+        <EmptyState title="No songs found" description={`No results found for "${searchTitle}"`} />
       </div>
     );
   }
@@ -68,7 +53,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ searchTitle }) => {
   return (
     <div className="flex flex-col gap-y-2 w-full px-6">
       <div className="text-neutral-400 text-sm mb-2">
-        Found {songs.length} result{songs.length !== 1 ? "s" : ""} for &quot;
+        Found {songs.length} result{songs.length === 1 ? "" : "s"} for &quot;
         {searchTitle}&quot;
       </div>
       {songs.map((song) => (

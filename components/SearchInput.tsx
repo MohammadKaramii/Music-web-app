@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import qs from "query-string";
-import { useRouter } from "next/navigation";
 import useDebounce from "@/hooks/useDebounce";
+import { useRouter } from "next/navigation";
+import qs from "query-string";
+import { useEffect, useState } from "react";
+
 import Input from "./Input";
 
 const SearchInput = () => {
@@ -17,17 +18,14 @@ const SearchInput = () => {
     };
     const url = qs.stringifyUrl({
       url: "/search",
-      query: query,
+      query,
     });
+
     router.push(url);
   }, [debouncedValue, router]);
 
   return (
-    <Input
-      placeholder="Search for songs or artists..."
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-    />
+    <Input placeholder="Search for songs or artists..." value={value} onChange={(e) => setValue(e.target.value)} />
   );
 };
 

@@ -1,6 +1,7 @@
 import { Artist } from "@/types";
-import ArtistItem from "./ArtistItem";
 import Link from "next/link";
+
+import ArtistItem from "./ArtistItem";
 
 interface ArtistContentProps {
   artists: Artist[];

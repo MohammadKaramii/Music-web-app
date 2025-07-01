@@ -1,13 +1,13 @@
 "use client";
 
-import React from "react";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { Song } from "@/types";
-import useUser from "@/hooks/useUser";
-import useAuthModal from "@/hooks/useAuthModal";
-import { useLikeSong, useUserLikes } from "@/lib/queries";
 import { ButtonLoading } from "@/components/ui/LoadingStates";
+import useAuthModal from "@/hooks/useAuthModal";
+import useUser from "@/hooks/useUser";
+import { useLikeSong, useUserLikes } from "@/lib/queries";
+import { Song } from "@/types";
+import React from "react";
 import { toast } from "react-hot-toast";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 interface LikeButtonProps {
   song: Song;
@@ -35,7 +35,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({ song, size = 25 }) => {
         isLiked,
       });
     } catch (error) {
-      toast.error("Failed to like song");
+      toast.error(`Failed to like song, ${error}`);
     }
   };
 

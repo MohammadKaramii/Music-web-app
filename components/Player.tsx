@@ -1,9 +1,11 @@
 "use client";
-import React from "react";
 import useGetSongbyId from "@/hooks/useGetSongbyId";
 import usePlayer from "@/hooks/usePlayer";
-import PlayerContent from "./PlayerContent";
+import React from "react";
 import { IoMdClose } from "react-icons/io";
+
+import PlayerContent from "./PlayerContent";
+
 const Player = () => {
   const player = usePlayer();
   const { song } = useGetSongbyId(player.activeId);

@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/supabase";
 import { Song } from "@/types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 export const queryKeys = {
@@ -27,16 +27,20 @@ const handleSupabaseError = (error: any) => {
   throw new Error(error?.message || "An error occurred while fetching data");
 };
 
-export const useSongs = () => {
+export const useSongs = (userId?: string) => {
   return useQuery({
-    queryKey: queryKeys.songs.all,
+    queryKey: userId ? queryKeys.songs.byUser(userId) : queryKeys.songs.all,
     queryFn: async (): Promise<Song[]> => {
-      const { data, error } = await supabase
-        .from("songs")
-        .select("*")
-        .order("id", { ascending: false });
+      let query = supabase.from("songs").select("*");
+
+      if (userId) {
+        query = query.eq("user_id", userId);
+      }
+
+      const { data, error } = await query.order("id", { ascending: false });
 
       if (error) handleSupabaseError(error);
+
       return data || [];
     },
     staleTime: 10 * 60 * 1000,
@@ -54,6 +58,7 @@ export const useSongsByArtist = (artistName: string) => {
         .order("title", { ascending: true });
 
       if (error) handleSupabaseError(error);
+
       return data || [];
     },
     enabled: !!artistName && artistName.length > 0,
@@ -75,6 +80,7 @@ export const useSongsByTitle = (title: string) => {
         .limit(50);
 
       if (error) handleSupabaseError(error);
+
       return data || [];
     },
     enabled: !!title && title.length >= 2,
@@ -97,6 +103,7 @@ export const useSearchSongs = (searchTerm: string) => {
         .limit(50);
 
       if (error) handleSupabaseError(error);
+
       return data || [];
     },
     enabled: !!searchTerm && searchTerm.length >= 2,
@@ -115,6 +122,7 @@ export const useSongsByUser = (userId: string) => {
         .order("title", { ascending: true });
 
       if (error) handleSupabaseError(error);
+
       return data || [];
     },
     enabled: !!userId,
@@ -132,12 +140,13 @@ export const useLikedSongs = (userId: string) => {
           `
           *,
           songs (*)
-        `
+        `,
         )
         .eq("userId", userId)
         .order("id", { ascending: false });
 
       if (error) handleSupabaseError(error);
+
       return data?.map((item: any) => item.songs).filter(Boolean) || [];
     },
     enabled: !!userId,
@@ -149,13 +158,10 @@ export const useSong = (id: string) => {
   return useQuery({
     queryKey: queryKeys.songs.single(id),
     queryFn: async (): Promise<Song | null> => {
-      const { data, error } = await supabase
-        .from("songs")
-        .select("*")
-        .eq("id", id)
-        .single();
+      const { data, error } = await supabase.from("songs").select("*").eq("id", id).single();
 
       if (error) handleSupabaseError(error);
+
       return data || null;
     },
     enabled: !!id,
@@ -167,12 +173,10 @@ export const useArtists = () => {
   return useQuery({
     queryKey: queryKeys.artists.all,
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("artists")
-        .select("*")
-        .order("name", { ascending: true });
+      const { data, error } = await supabase.from("artists").select("*").order("name", { ascending: true });
 
       if (error) handleSupabaseError(error);
+
       return data || [];
     },
     staleTime: 20 * 60 * 1000,
@@ -183,23 +187,12 @@ export const useLikeSong = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({
-      songId,
-      userId,
-      isLiked,
-    }: {
-      songId: string;
-      userId: string;
-      isLiked: boolean;
-    }) => {
+    mutationFn: async ({ songId, userId, isLiked }: { songId: string; userId: string; isLiked: boolean }) => {
       if (isLiked) {
-        const { error } = await supabase
-          .from("liked_songs")
-          .delete()
-          .eq("songId", songId)
-          .eq("userId", userId);
+        const { error } = await supabase.from("liked_songs").delete().eq("songId", songId).eq("userId", userId);
 
         if (error) handleSupabaseError(error);
+
         return { isLiked: false, action: "unliked", songId };
       } else {
         const [likeResult, songResult] = await Promise.all([
@@ -224,86 +217,61 @@ export const useLikeSong = () => {
         queryClient.cancelQueries({ queryKey: queryKeys.user.likes(userId) }),
       ]);
 
-      const previousLikedSongs = queryClient.getQueryData(
-        queryKeys.songs.liked(userId)
-      );
-      const previousUserLikes = queryClient.getQueryData(
-        queryKeys.user.likes(userId)
-      );
+      const previousLikedSongs = queryClient.getQueryData(queryKeys.songs.liked(userId));
+      const previousUserLikes = queryClient.getQueryData(queryKeys.user.likes(userId));
 
       let songData: Song | null = null;
+
       if (!isLiked) {
-        const allSongs = queryClient.getQueryData(queryKeys.songs.all) as
-          | Song[]
-          | undefined;
+        const allSongs = queryClient.getQueryData(queryKeys.songs.all) as Song[] | undefined;
+
         songData = allSongs?.find((song) => song.id === songId) || null;
 
         if (!songData) {
           try {
-            const { data } = await supabase
-              .from("songs")
-              .select("*")
-              .eq("id", songId)
-              .single();
+            const { data } = await supabase.from("songs").select("*").eq("id", songId).single();
+
             songData = data;
           } catch (error) {
-            console.warn(
-              "Failed to fetch song data for optimistic update:",
-              error
-            );
+            console.warn("Failed to fetch song data for optimistic update:", error);
           }
         }
       }
 
-      queryClient.setQueryData(
-        queryKeys.user.likes(userId),
-        (old: string[] = []) => {
-          if (isLiked) {
-            return old.filter((id) => id !== songId);
-          } else {
-            return [...old, songId];
-          }
+      queryClient.setQueryData(queryKeys.user.likes(userId), (old: string[] = []) => {
+        if (isLiked) {
+          return old.filter((id) => id !== songId);
+        } else {
+          return [...old, songId];
         }
-      );
+      });
 
-      queryClient.setQueryData(
-        queryKeys.songs.liked(userId),
-        (old: Song[] = []) => {
-          if (isLiked) {
-            return old.filter((song) => song.id !== songId);
-          } else {
-            if (songData) {
-              return [songData, ...old];
-            }
-            return old;
+      queryClient.setQueryData(queryKeys.songs.liked(userId), (old: Song[] = []) => {
+        if (isLiked) {
+          return old.filter((song) => song.id !== songId);
+        } else {
+          if (songData) {
+            return [songData, ...old];
           }
+
+          return old;
         }
-      );
+      });
 
       return { previousLikedSongs, previousUserLikes };
     },
     onError: (_err, variables, context) => {
       if (context?.previousLikedSongs) {
-        queryClient.setQueryData(
-          queryKeys.songs.liked(variables.userId),
-          context.previousLikedSongs
-        );
+        queryClient.setQueryData(queryKeys.songs.liked(variables.userId), context.previousLikedSongs);
       }
       if (context?.previousUserLikes) {
-        queryClient.setQueryData(
-          queryKeys.user.likes(variables.userId),
-          context.previousUserLikes
-        );
+        queryClient.setQueryData(queryKeys.user.likes(variables.userId), context.previousUserLikes);
       }
 
       toast.error("Failed to update like. Please try again.");
     },
-    onSuccess: (data, _variables) => {
-      toast.success(
-        data.action === "liked"
-          ? "Added to liked songs"
-          : "Removed from liked songs"
-      );
+    onSuccess: (data) => {
+      toast.success(data.action === "liked" ? "Added to liked songs" : "Removed from liked songs");
     },
     onSettled: (_data, _error, variables) => {
       Promise.all([
@@ -329,12 +297,10 @@ export const useUserLikes = (userId: string) => {
   return useQuery({
     queryKey: queryKeys.user.likes(userId),
     queryFn: async (): Promise<string[]> => {
-      const { data, error } = await supabase
-        .from("liked_songs")
-        .select("songId")
-        .eq("userId", userId);
+      const { data, error } = await supabase.from("liked_songs").select("songId").eq("userId", userId);
 
       if (error) handleSupabaseError(error);
+
       return data?.map((item: any) => item.songId) || [];
     },
     enabled: !!userId,
@@ -346,8 +312,7 @@ export const useInvalidateQueries = () => {
   const queryClient = useQueryClient();
 
   return {
-    invalidateAllSongs: () =>
-      queryClient.invalidateQueries({ queryKey: queryKeys.songs.all }),
+    invalidateAllSongs: () => queryClient.invalidateQueries({ queryKey: queryKeys.songs.all }),
     invalidateArtistSongs: (artistName: string) =>
       queryClient.invalidateQueries({
         queryKey: queryKeys.songs.byArtist(artistName),
@@ -369,12 +334,20 @@ export const usePrefetchQueries = () => {
   const queryClient = useQueryClient();
 
   return {
-    prefetchSongs: () =>
+    prefetchSongs: (userId?: string) =>
       queryClient.prefetchQuery({
-        queryKey: queryKeys.songs.all,
+        queryKey: userId ? queryKeys.songs.byUser(userId) : queryKeys.songs.all,
         queryFn: async () => {
-          const { data, error } = await supabase.from("songs").select("*");
+          let query = supabase.from("songs").select("*");
+
+          if (userId) {
+            query = query.eq("user_id", userId);
+          }
+
+          const { data, error } = await query;
+
           if (error) handleSupabaseError(error);
+
           return data || [];
         },
       }),
@@ -383,7 +356,9 @@ export const usePrefetchQueries = () => {
         queryKey: queryKeys.artists.all,
         queryFn: async () => {
           const { data, error } = await supabase.from("artists").select("*");
+
           if (error) handleSupabaseError(error);
+
           return data || [];
         },
       }),

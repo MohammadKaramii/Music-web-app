@@ -2,14 +2,12 @@
 
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
-
-//icons
-import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
-//components
+import { HiHome } from "react-icons/hi";
+
 import Box from "./Box";
-import SidebarItem from "./SidebarItem";
 import Library from "./Library";
+import SidebarItem from "./SidebarItem";
 
 interface SidebarProps {
   children: React.ReactNode;
@@ -33,8 +31,9 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         icon: BiSearch,
       },
     ],
-    [pathname]
+    [pathname],
   );
+
   return (
     <div className="flex h-full">
       <div className="hidden md:flex flex-col bg-black gap-y-2 h-full w-[300px] mx-2">

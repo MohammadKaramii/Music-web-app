@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import { NavigationLoading } from "@/components/ui/LoadingStates";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 interface NavigationWrapperProps {
   children: React.ReactNode;

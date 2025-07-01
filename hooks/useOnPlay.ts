@@ -1,4 +1,5 @@
 import { Song } from "@/types";
+
 import usePlayer from "./usePlayer";
 
 const useOnPlay = (songs: Song[]) => {
@@ -8,7 +9,7 @@ const useOnPlay = (songs: Song[]) => {
     player.setId(id);
     player.setIds(songs.map((song) => song.id));
     player.setInitialIds(songs.map((song) => song.id));
-    player.onOpen()
+    player.onOpen();
   };
 
   return onPlay;

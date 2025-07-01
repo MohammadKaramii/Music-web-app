@@ -6,9 +6,7 @@ interface AuthLoadingWrapperProps {
   children: React.ReactNode;
 }
 
-export default function AuthLoadingWrapper({
-  children,
-}: AuthLoadingWrapperProps) {
+export default function AuthLoadingWrapper({ children }: AuthLoadingWrapperProps) {
   const { loading } = useSupabaseAuth();
 
   if (loading) {

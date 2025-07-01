@@ -6,17 +6,10 @@ interface ShuffleButtonProps {
   toggleShuffle: () => void;
 }
 
-const ShuffleButton: React.FC<ShuffleButtonProps> = ({
-  shuffleMode,
-  toggleShuffle,
-}) => {
+const ShuffleButton: React.FC<ShuffleButtonProps> = ({ shuffleMode, toggleShuffle }) => {
   return (
     <button onClick={toggleShuffle}>
-      {shuffleMode ? (
-        <FaShuffle color="white" size={20} />
-      ) : (
-        <FaShuffle color="gray" size={20} />
-      )}
+      {shuffleMode ? <FaShuffle color="white" size={20} /> : <FaShuffle color="gray" size={20} />}
     </button>
   );
 };

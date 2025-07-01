@@ -1,13 +1,8 @@
 "use client";
 
-import React from "react";
-import {
-  BounceLoader,
-  PulseLoader,
-  BarLoader,
-  ClipLoader,
-} from "react-spinners";
 import Box from "@/components/Box";
+import React from "react";
+import { BarLoader, BounceLoader, ClipLoader, PulseLoader } from "react-spinners";
 
 interface LoadingSpinnerProps {
   size?: number;
@@ -15,10 +10,7 @@ interface LoadingSpinnerProps {
   className?: string;
 }
 
-export const FullPageLoading: React.FC<LoadingSpinnerProps> = ({
-  size = 40,
-  color = "#bc2a8d",
-}) => {
+export const FullPageLoading: React.FC<LoadingSpinnerProps> = ({ size = 40, color = "#bc2a8d" }) => {
   return (
     <Box className="h-full flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
@@ -29,11 +21,7 @@ export const FullPageLoading: React.FC<LoadingSpinnerProps> = ({
   );
 };
 
-export const InlineLoading: React.FC<LoadingSpinnerProps> = ({
-  size = 20,
-  color = "#bc2a8d",
-  className = "",
-}) => {
+export const InlineLoading: React.FC<LoadingSpinnerProps> = ({ size = 20, color = "#bc2a8d", className = "" }) => {
   return (
     <div className={`flex items-center justify-center py-8 ${className}`}>
       <PulseLoader color={color} size={size} />
@@ -102,10 +90,7 @@ export const NavigationLoading: React.FC = () => {
   );
 };
 
-export const ButtonLoading: React.FC<LoadingSpinnerProps> = ({
-  size = 16,
-  color = "white",
-}) => {
+export const ButtonLoading: React.FC<LoadingSpinnerProps> = ({ size = 16, color = "white" }) => {
   return <ClipLoader color={color} size={size} />;
 };
 
@@ -118,12 +103,7 @@ export const ErrorState: React.FC<{
     <Box className="h-full flex items-center justify-center">
       <div className="text-center">
         <div className="text-neutral-400 mb-4">
-          <svg
-            className="mx-auto h-12 w-12"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
+          <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -151,21 +131,12 @@ export const EmptyState: React.FC<{
   title?: string;
   description?: string;
   action?: React.ReactNode;
-}> = ({
-  title = "No results found",
-  description = "Try adjusting your search or filters",
-  action,
-}) => {
+}> = ({ title = "No results found", description = "Try adjusting your search or filters", action }) => {
   return (
     <Box className="h-full flex items-center justify-center">
       <div className="text-center w-full max-w-md mx-auto mt-16">
         <div className="text-neutral-400 mb-6">
-          <svg
-            className="mx-auto h-16 w-16"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
+          <svg className="mx-auto h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -198,10 +169,6 @@ export const LoadingOverlay: React.FC<{
   );
 };
 
-export const SuspenseFallback: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  return (
-    <React.Suspense fallback={<FullPageLoading />}>{children}</React.Suspense>
-  );
+export const SuspenseFallback: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return <React.Suspense fallback={<FullPageLoading />}>{children}</React.Suspense>;
 };

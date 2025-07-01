@@ -26,7 +26,7 @@ const usePlayer = create<PlayerStore>((set) => ({
   volume: 1,
   shuffleMode: false,
   repeatMode: "off",
-  isOpen:true,
+  isOpen: true,
   setId: (id: string) => set({ activeId: id }),
   setIds: (ids: string[]) => set({ ids }),
   setInitialIds: (initialIds: string[]) => set({ initialIds }),

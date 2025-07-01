@@ -1,8 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import PlayButton from "./PlayButton";
 import { Song } from "@/types";
+import Image from "next/image";
+
+import PlayButton from "./PlayButton";
+
 interface SongItemProps {
   data: Song;
   onClick: (id: string) => void;
@@ -35,12 +37,7 @@ const SongItem: React.FC<SongItemProps> = ({ data, onClick }) => {
           rounded-md 
           overflow-hidden"
       >
-        <Image
-          className="object-cover"
-          src={data.cover}
-          fill
-          alt="cover image"
-        />
+        <Image className="object-cover" src={data.cover} fill alt="cover image" />
       </div>
       <div className="flex flex-col items-start w-full pt-4 gap-y-1">
         <p className="font-semibold truncate w-full">{data.title}</p>

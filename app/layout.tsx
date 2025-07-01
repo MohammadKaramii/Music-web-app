@@ -1,14 +1,14 @@
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
-import type { Metadata } from "next";
-import { Oxygen } from "next/font/google";
+import NavigationWrapper from "@/components/NavigationWrapper";
 import Player from "@/components/Player";
+import Sidebar from "@/components/Sidebar";
+import { UserProvider } from "@/hooks/useUser";
 import ModalProvider from "@/providers/ModalProvider";
-import ToasterProvider from "@/providers/ToasterProvider";
 import QueryProvider from "@/providers/QueryProvider";
 import SupabaseAuthProvider from "@/providers/SupabaseAuthProvider";
-import NavigationWrapper from "@/components/NavigationWrapper";
-import { UserProvider } from "@/hooks/useUser";
+import ToasterProvider from "@/providers/ToasterProvider";
+import type { Metadata } from "next";
+import { Oxygen } from "next/font/google";
 
 const font = Oxygen({ subsets: ["latin"], weight: ["300", "400", "700"] });
 
@@ -19,11 +19,7 @@ export const metadata: Metadata = {
 
 export const revalidate = 0;
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={font.className}>

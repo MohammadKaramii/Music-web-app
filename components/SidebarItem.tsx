@@ -1,18 +1,13 @@
+import { SidebarItemProps } from "@/types";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
-import { SidebarItemProps } from "@/types";
 
-const SidebarItem: React.FC<SidebarItemProps> = ({
-  label,
-  href,
-  icon: Icon,
-  active,
-}) => {
+const SidebarItem: React.FC<SidebarItemProps> = ({ label, href, icon: Icon, active }) => {
   return (
     <Link
       className={twMerge(
-        `flex flex-row items-center h-auto w-full gap-x-4 text-md font-medium cursor-pointer hover:text-white transition text-neutral-400 py-1`,
-        active && "text-white"
+        "flex flex-row items-center h-auto w-full gap-x-4 text-md font-medium cursor-pointer hover:text-white transition text-neutral-400 py-1",
+        active && "text-white",
       )}
       href={href}
     >
