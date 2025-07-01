@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+public/
+*.d.ts
+next-env.d.ts
+.vercel
+next.config.js
+**/*.js.map
+**/*.d.ts
+build/
+dist/ 

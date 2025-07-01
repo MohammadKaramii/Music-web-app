@@ -5,11 +5,6 @@ import { supabase } from "@/supabase";
 import { toast } from "react-hot-toast";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
-interface User {
-  name: string;
-  email: string;
-}
-
 const AuthModal = () => {
   const { onClose, isOpen, name, setName } = useAuthModal();
   const [email, setEmail] = useState("");
@@ -23,7 +18,7 @@ const AuthModal = () => {
     setIsLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -47,7 +42,7 @@ const AuthModal = () => {
     setIsLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email,
         password,
       });
@@ -59,9 +54,7 @@ const AuthModal = () => {
           data: { full_name: name },
         });
 
-        toast.success(
-          "Signup successful! Check your email to confirm your account."
-        );
+        toast.success("Signup successful! Check your email to confirm your account.");
         onClose();
       }
     } catch (error) {
@@ -80,7 +73,6 @@ const AuthModal = () => {
 
   const toggleSignupMode = () => {
     setSignupMode(!signupMode);
-    // Reset form when switching modes
     setEmail("");
     setPassword("");
   };
@@ -92,26 +84,16 @@ const AuthModal = () => {
   return (
     <Modal
       title={signupMode ? "Create an account" : "Welcome back"}
-      description={
-        signupMode
-          ? "Sign up to continue to Music Web App"
-          : "Login to your account"
-      }
+      description={signupMode ? "Sign up to continue to Music Web App" : "Login to your account"}
       onChange={onChange}
       isOpen={isOpen}
     >
       <div className="flex items-center justify-center w-full overflow-y-auto">
         <div className="w-full p-2 space-y-4">
-          <form
-            className="space-y-4"
-            onSubmit={signupMode ? handleSignup : handleLogin}
-          >
+          <form className="space-y-4" onSubmit={signupMode ? handleSignup : handleLogin}>
             {signupMode && (
               <div>
-                <label
-                  htmlFor="name"
-                  className="block mb-1 text-sm font-medium text-white"
-                >
+                <label htmlFor="name" className="block mb-1 text-sm font-medium text-white">
                   Your name
                 </label>
                 <input
@@ -127,10 +109,7 @@ const AuthModal = () => {
               </div>
             )}
             <div>
-              <label
-                htmlFor="email"
-                className="block mb-1 text-sm font-medium text-white"
-              >
+              <label htmlFor="email" className="block mb-1 text-sm font-medium text-white">
                 Email address
               </label>
               <input
@@ -145,10 +124,7 @@ const AuthModal = () => {
               />
             </div>
             <div>
-              <label
-                htmlFor="password"
-                className="block mb-1 text-sm font-medium text-white"
-              >
+              <label htmlFor="password" className="block mb-1 text-sm font-medium text-white">
                 Password
               </label>
               <div className="relative">
@@ -171,9 +147,7 @@ const AuthModal = () => {
                   {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                 </button>
               </div>
-              <p className="text-xs text-gray-400 mt-1">
-                {signupMode && "Password must be at least 6 characters"}
-              </p>
+              <p className="text-xs text-gray-400 mt-1">{signupMode && "Password must be at least 6 characters"}</p>
             </div>
 
             <button
@@ -181,22 +155,12 @@ const AuthModal = () => {
               disabled={isLoading}
               className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-800 font-medium rounded-lg py-2 px-4 transition duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {isLoading
-                ? "Loading..."
-                : signupMode
-                ? "Create account"
-                : "Sign in"}
+              {isLoading ? "Loading..." : signupMode ? "Create account" : "Sign in"}
             </button>
 
             <div className="text-sm font-medium text-center text-gray-300">
-              {signupMode
-                ? "Already have an account?"
-                : "Don't have an account?"}{" "}
-              <button
-                type="button"
-                className="text-blue-500 hover:underline font-semibold"
-                onClick={toggleSignupMode}
-              >
+              {signupMode ? "Already have an account?" : "Don't have an account?"}{" "}
+              <button type="button" className="text-blue-500 hover:underline font-semibold" onClick={toggleSignupMode}>
                 {signupMode ? "Sign in" : "Sign up"}
               </button>
             </div>

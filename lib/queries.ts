@@ -282,7 +282,7 @@ export const useLikeSong = () => {
 
       return { previousLikedSongs, previousUserLikes };
     },
-    onError: (err, variables, context) => {
+    onError: (_err, variables, context) => {
       if (context?.previousLikedSongs) {
         queryClient.setQueryData(
           queryKeys.songs.liked(variables.userId),
@@ -298,14 +298,14 @@ export const useLikeSong = () => {
 
       toast.error("Failed to update like. Please try again.");
     },
-    onSuccess: (data, variables) => {
+    onSuccess: (data, _variables) => {
       toast.success(
         data.action === "liked"
           ? "Added to liked songs"
           : "Removed from liked songs"
       );
     },
-    onSettled: (data, error, variables) => {
+    onSettled: (_data, _error, variables) => {
       Promise.all([
         queryClient.invalidateQueries({
           queryKey: queryKeys.songs.liked(variables.userId),

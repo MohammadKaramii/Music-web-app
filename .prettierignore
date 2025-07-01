@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+public/
+build/
+dist/
+coverage/
+*.d.ts
+next-env.d.ts
+.vercel
+next.config.js
+package.json
+package-lock.json
+yarn.lock 

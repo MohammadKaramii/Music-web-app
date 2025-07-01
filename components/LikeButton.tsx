@@ -29,7 +29,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({ song, size = 25 }) => {
     }
 
     try {
-      const result = await likeMutation.mutateAsync({
+      await likeMutation.mutateAsync({
         songId: song.id,
         userId: user.id,
         isLiked,
@@ -47,10 +47,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({ song, size = 25 }) => {
       aria-label={isLiked ? "Unlike song" : "Like song"}
     >
       {likeMutation.isPending ? (
-        <ButtonLoading
-          size={size * 0.6}
-          color={isLiked ? "#B80000" : "white"}
-        />
+        <ButtonLoading size={size * 0.6} color={isLiked ? "#B80000" : "white"} />
       ) : (
         <Icon color={isLiked ? "#B80000" : "white"} size={size} />
       )}

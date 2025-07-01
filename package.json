@@ -3,7 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next --port 3000"
+    "dev": "next --port 3000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
@@ -42,6 +47,14 @@
   "devDependencies": {
     "@types/json-server": "^0.14.7",
     "@types/uniqid": "^5.3.4",
-    "@types/yup": "^0.29.14"
+    "@types/yup": "^0.29.14",
+    "@typescript-eslint/eslint-plugin": "^8.35.1",
+    "@typescript-eslint/parser": "^8.35.1",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.1",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "prettier": "^3.6.2"
   }
 }
