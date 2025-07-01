@@ -50,20 +50,19 @@ export default function Home() {
         ) : (
           <>
             <div className="flex items-center justify-between">
-              <h1 className="text-white font-semibold text-2xl">
-                {user ? "Your uploaded songs" : "Please login to see your songs"}
-              </h1>
+              <h1 className="text-white font-semibold text-2xl">{user ? "Your Library" : "Public Songs"}</h1>
             </div>
-            {user ? (
-              songs.length > 0 ? (
+            {songs.length > 0 ? (
+              <>
                 <PageContent songs={songs} />
-              ) : (
-                <div className="text-neutral-400 mt-4">
-                  You haven't uploaded any songs yet. Use the upload button to add songs.
-                </div>
-              )
+                {!user && <div className="text-neutral-400 mt-4">Sign in to upload and manage your own songs.</div>}
+              </>
             ) : (
-              <div className="text-neutral-400 mt-4">Login to see and manage your uploaded songs.</div>
+              <div className="text-neutral-400 mt-4">
+                {user
+                  ? "You haven't uploaded any songs yet. Use the upload button to add songs."
+                  : "No public songs available."}
+              </div>
             )}
           </>
         )}

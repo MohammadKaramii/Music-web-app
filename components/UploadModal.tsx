@@ -95,6 +95,7 @@ const UploadModal = () => {
         songPath: values.song,
         cover: values.image,
         user_id: user?.id,
+        is_public: false,
       });
 
       if (uploadError) {

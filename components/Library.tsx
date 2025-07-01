@@ -59,7 +59,7 @@ const Library = () => {
         <div className="flex items-center justify-between border-b-2 px-5 py-4 border-gray-500  hover:bg-white/20 transition ">
           <div className="inline-flex items-center gap-x-2 ">
             <RiFolderMusicLine size={26} className="text-neutral-400" />
-            <p className="text-neutral-400 text-md font-medium">Your Added Songs</p>
+            <p className="text-neutral-400 text-md font-medium">Songs Library</p>
           </div>
           <IoIosArrowForward size={20} className="text-neutral-400 cursor-pointer  hover:text-white transition" />
         </div>
