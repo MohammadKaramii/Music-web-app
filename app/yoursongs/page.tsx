@@ -9,7 +9,6 @@ import { useSongs } from "@/lib/queries";
 const UserSongs = () => {
   const { user, isLoading: userLoading } = useUser();
   const authModal = useAuthModal();
-  // Get all songs (public for non-authenticated users, public + own songs for authenticated users)
   const { data: songs = [], isLoading, error, refetch } = useSongs(user?.id);
 
   const openAuthModal = (signupMode: boolean) => {

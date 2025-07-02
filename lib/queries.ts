@@ -1,5 +1,6 @@
 import { supabase } from "@/supabase";
 import { Song } from "@/types";
+import { PostgrestError } from "@supabase/supabase-js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
@@ -22,7 +23,7 @@ export const queryKeys = {
   },
 } as const;
 
-const handleSupabaseError = (error: any) => {
+const handleSupabaseError = (error: PostgrestError) => {
   console.error("Supabase error:", error);
   throw new Error(error?.message || "An error occurred while fetching data");
 };
@@ -31,17 +32,11 @@ export const useSongs = (userId?: string) => {
   return useQuery({
     queryKey: userId ? queryKeys.songs.byUser(userId) : queryKeys.songs.all,
     queryFn: async (): Promise<Song[]> => {
-      let query = supabase.from("songs").select("*");
+      const query = supabase.from("songs").select("*");
 
-      if (userId) {
-        // For authenticated users, show public songs and their own songs
-        query = query.or(`is_public.eq.true,user_id.eq.${userId}`);
-      } else {
-        // For non-authenticated users, show only public songs
-        query = query.eq("is_public", true);
-      }
+      const filteredQuery = userId ? query.or(`is_public.eq.true,user_id.eq.${userId}`) : query.eq("is_public", true);
 
-      const { data, error } = await query.order("id", { ascending: false });
+      const { data, error } = await filteredQuery.order("id", { ascending: false });
 
       if (error) handleSupabaseError(error);
 
@@ -55,17 +50,11 @@ export const useSongsByArtist = (artistName: string, userId?: string) => {
   return useQuery({
     queryKey: [...queryKeys.songs.byArtist(artistName), userId],
     queryFn: async (): Promise<Song[]> => {
-      let query = supabase.from("songs").select("*").ilike("artist", `%${artistName}%`);
+      const query = supabase.from("songs").select("*").ilike("artist", `%${artistName}%`);
 
-      if (userId) {
-        // For authenticated users, show public songs and their own songs
-        query = query.or(`is_public.eq.true,user_id.eq.${userId}`);
-      } else {
-        // For non-authenticated users, show only public songs
-        query = query.eq("is_public", true);
-      }
+      const filteredQuery = userId ? query.or(`is_public.eq.true,user_id.eq.${userId}`) : query.eq("is_public", true);
 
-      const { data, error } = await query.order("title", { ascending: true });
+      const { data, error } = await filteredQuery.order("title", { ascending: true });
 
       if (error) handleSupabaseError(error);
 
@@ -82,17 +71,11 @@ export const useSongsByTitle = (title: string, userId?: string) => {
     queryFn: async (): Promise<Song[]> => {
       if (!title || title.length < 2) return [];
 
-      let query = supabase.from("songs").select("*").ilike("title", `%${title}%`);
+      const query = supabase.from("songs").select("*").ilike("title", `%${title}%`);
 
-      if (userId) {
-        // For authenticated users, show public songs and their own songs
-        query = query.or(`is_public.eq.true,user_id.eq.${userId}`);
-      } else {
-        // For non-authenticated users, show only public songs
-        query = query.eq("is_public", true);
-      }
+      const filteredQuery = userId ? query.or(`is_public.eq.true,user_id.eq.${userId}`) : query.eq("is_public", true);
 
-      const { data, error } = await query.order("title", { ascending: true }).limit(50);
+      const { data, error } = await filteredQuery.order("title", { ascending: true }).limit(50);
 
       if (error) handleSupabaseError(error);
 
@@ -109,21 +92,15 @@ export const useSearchSongs = (searchTerm: string, userId?: string) => {
     queryFn: async (): Promise<Song[]> => {
       if (!searchTerm || searchTerm.length < 2) return [];
 
-      let query = supabase.from("songs").select("*");
+      const query = supabase.from("songs").select("*");
 
-      // Filter by search term
-      query = query.or(`title.ilike.%${searchTerm}%,artist.ilike.%${searchTerm}%`);
+      const withSearchTermQuery = query.or(`title.ilike.%${searchTerm}%,artist.ilike.%${searchTerm}%`);
 
-      // Add visibility filter
-      if (userId) {
-        // For authenticated users, show public songs and their own songs
-        query = query.or(`is_public.eq.true,user_id.eq.${userId}`);
-      } else {
-        // For non-authenticated users, show only public songs
-        query = query.eq("is_public", true);
-      }
+      const filteredQuery = userId
+        ? withSearchTermQuery.or(`is_public.eq.true,user_id.eq.${userId}`)
+        : withSearchTermQuery.eq("is_public", true);
 
-      const { data, error } = await query.order("title", { ascending: true }).limit(50);
+      const { data, error } = await filteredQuery.order("title", { ascending: true }).limit(50);
 
       if (error) handleSupabaseError(error);
 
@@ -170,7 +147,7 @@ export const useLikedSongs = (userId: string) => {
 
       if (error) handleSupabaseError(error);
 
-      return data?.map((item: any) => item.songs).filter(Boolean) || [];
+      return data?.map((item: { songs: Song }) => item.songs).filter(Boolean) || [];
     },
     enabled: !!userId,
     staleTime: 5 * 60 * 1000,
@@ -243,23 +220,16 @@ export const useLikeSong = () => {
       const previousLikedSongs = queryClient.getQueryData(queryKeys.songs.liked(userId));
       const previousUserLikes = queryClient.getQueryData(queryKeys.user.likes(userId));
 
-      let songData: Song | null = null;
+      const songData: Song | null = (() => {
+        if (!isLiked) {
+          const allSongs = queryClient.getQueryData(queryKeys.songs.all) as Song[] | undefined;
+          const foundSong = allSongs?.find((song) => song.id === songId) || null;
 
-      if (!isLiked) {
-        const allSongs = queryClient.getQueryData(queryKeys.songs.all) as Song[] | undefined;
-
-        songData = allSongs?.find((song) => song.id === songId) || null;
-
-        if (!songData) {
-          try {
-            const { data } = await supabase.from("songs").select("*").eq("id", songId).single();
-
-            songData = data;
-          } catch (error) {
-            console.warn("Failed to fetch song data for optimistic update:", error);
-          }
+          return foundSong;
         }
-      }
+
+        return null;
+      })();
 
       queryClient.setQueryData(queryKeys.user.likes(userId), (old: string[] = []) => {
         if (isLiked) {
@@ -324,7 +294,7 @@ export const useUserLikes = (userId: string) => {
 
       if (error) handleSupabaseError(error);
 
-      return data?.map((item: any) => item.songId) || [];
+      return data?.map((item: { songId: string }) => item.songId) || [];
     },
     enabled: !!userId,
     staleTime: 5 * 60 * 1000,
@@ -361,17 +331,13 @@ export const usePrefetchQueries = () => {
       queryClient.prefetchQuery({
         queryKey: userId ? queryKeys.songs.byUser(userId) : queryKeys.songs.all,
         queryFn: async () => {
-          let query = supabase.from("songs").select("*");
+          const query = supabase.from("songs").select("*");
 
-          if (userId) {
-            // For authenticated users, show public songs and their own songs
-            query = query.or(`is_public.eq.true,user_id.eq.${userId}`);
-          } else {
-            // For non-authenticated users, show only public songs
-            query = query.eq("is_public", true);
-          }
+          const filteredQuery = userId
+            ? query.or(`is_public.eq.true,user_id.eq.${userId}`)
+            : query.eq("is_public", true);
 
-          const { data, error } = await query;
+          const { data, error } = await filteredQuery;
 
           if (error) handleSupabaseError(error);
 

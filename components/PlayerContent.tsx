@@ -49,7 +49,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       player.setRepeatMode("off");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [player.repeatMode]);
+  }, [player.repeatMode, player]);
 
   const onPlayNext = useCallback(() => {
     if (player.ids.length === 0) {
@@ -78,7 +78,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   }, [player]);
 
   useEffect(() => {
-    let interval: any;
+    let interval: ReturnType<typeof setInterval> | undefined;
 
     if (sound) {
       sound.volume = player.volume;
@@ -100,7 +100,9 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
         sound.pause();
         setDuration(0);
       }
-      clearInterval(interval);
+      if (interval) {
+        clearInterval(interval);
+      }
     };
   }, [sound, player.volume]);
 
@@ -167,8 +169,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
     } else if (player.repeatMode === "all") {
       onPlayNext();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [player.repeatMode]);
+  }, [player.repeatMode, sound, onPlayNext]);
 
   useEffect(() => {
     sound.addEventListener("play", () => setIsPlaying(true));
@@ -180,8 +181,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       sound.removeEventListener("pause", () => setIsPlaying(false));
       sound.removeEventListener("ended", handleMusicEnded);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sound, onPlayNext]);
+  }, [sound, onPlayNext, handleMusicEnded]);
 
   const handleVolumeChange = useCallback(
     (value: number) => {

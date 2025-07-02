@@ -14,15 +14,8 @@ const useGetSongbyId = (id?: string, userId?: string) => {
 
     setIsLoading(true);
     const fetchSong = async () => {
-      let query = supabase.from("songs").select("*").eq("id", id);
-
-      // If user is authenticated, they can see their own songs and public songs
-      // If not, they can only see public songs
-      if (userId) {
-        query = query.or(`is_public.eq.true,user_id.eq.${userId}`);
-      } else {
-        query = query.eq("is_public", true);
-      }
+      const baseQuery = supabase.from("songs").select("*").eq("id", id);
+      const query = userId ? baseQuery.or(`is_public.eq.true,user_id.eq.${userId}`) : baseQuery.eq("is_public", true);
 
       const { data, error } = await query.single();
 

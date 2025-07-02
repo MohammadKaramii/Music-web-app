@@ -14,7 +14,7 @@ const Player = () => {
   const songUrl = song?.songPath;
 
   const handleClose = () => {
-    player.onClose(); // Function to close the player (can be called from a close button)
+    player.onClose();
   };
 
   if (!song || !songUrl || !player.activeId || !player.isOpen) {
