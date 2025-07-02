@@ -47,7 +47,7 @@ const UploadModal = () => {
   const [isLoading, setisLoading] = useState(false);
   const { user } = useUser();
   const router = useRouter();
-  const { invalidateAllSongs, invalidateUserSongs } = useInvalidateQueries();
+  const { invalidateAllSongs, invalidateUserSongs, invalidateLikedSongs } = useInvalidateQueries();
   const { data: existingSongs = [] } = useSongs(user?.id);
 
   const initialValues = {
@@ -105,6 +105,7 @@ const UploadModal = () => {
       invalidateAllSongs();
       if (user?.id) {
         invalidateUserSongs(user.id);
+        invalidateLikedSongs(user.id);
       }
 
       setisLoading(false);

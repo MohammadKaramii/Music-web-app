@@ -222,10 +222,20 @@ export const useLikeSong = () => {
 
       const songData: Song | null = (() => {
         if (!isLiked) {
-          const allSongs = queryClient.getQueryData(queryKeys.songs.all) as Song[] | undefined;
-          const foundSong = allSongs?.find((song) => song.id === songId) || null;
+          const userSongs = queryClient.getQueryData(queryKeys.songs.byUser(userId)) as Song[] | undefined;
 
-          return foundSong;
+          if (userSongs) {
+            const foundInUserSongs = userSongs.find((song) => song.id === songId);
+
+            if (foundInUserSongs) return foundInUserSongs;
+          }
+
+          const allSongs = queryClient.getQueryData(queryKeys.songs.all) as Song[] | undefined;
+          const foundInAllSongs = allSongs?.find((song) => song.id === songId) || null;
+
+          if (foundInAllSongs) return foundInAllSongs;
+
+          return null;
         }
 
         return null;
@@ -263,8 +273,20 @@ export const useLikeSong = () => {
 
       toast.error("Failed to update like. Please try again.");
     },
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       toast.success(data.action === "liked" ? "Added to liked songs" : "Removed from liked songs");
+
+      if (data.action === "liked" && data.songData) {
+        queryClient.setQueryData(queryKeys.songs.liked(variables.userId), (old: Song[] = []) => {
+          const exists = old.some((song) => song.id === data.songId);
+
+          if (!exists) {
+            return [data.songData, ...old];
+          }
+
+          return old;
+        });
+      }
     },
     onSettled: (_data, _error, variables) => {
       Promise.all([

@@ -58,7 +58,7 @@ export default function SupabaseAuthProvider({ children }: SupabaseAuthProviderP
     // Listen for auth changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         setUser(session.user);
         setLoggedIn(true);

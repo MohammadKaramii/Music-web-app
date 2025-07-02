@@ -32,7 +32,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user || null);
       setIsLoading(false);
     });
